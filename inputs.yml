@@ -1,0 +1,42 @@
+# Consumer inputs for cis-aws-database.
+#
+# Override values per-environment via:
+#   cinc-auditor exec profiles/cis-aws-database \
+#     --input-file profiles/cis-aws-database/inputs.yml
+# or individually via --input name=value
+#
+# All inputs have sensible defaults — see inspec.yml for the catalogue
+# and README.md "Portability" for how each input composes. A worked
+# overlay sits at `examples/sparc.inputs.yml`.
+
+# ----- AWS partition -----
+# 'aws' for Commercial (default), 'aws-us-gov' for GovCloud non-DoD.
+aws_partition: aws
+
+# ----- Database service scope -----
+# Empty / unset (default) = all sections applicable, intended for
+# consumers whose database footprint spans multiple services.
+# Uncomment to scope to specific services and skip the rest.
+# applicable_services:
+#   - rds          # Sections 2 + 3 (RDS + Aurora)
+#   - dynamodb     # Section 4
+#   - elasticache  # Section 5
+#   - memorydb     # Section 6
+#   - documentdb   # Section 7
+#   - keyspaces    # Section 8
+#   - neptune      # Section 9
+#   - timestream   # Section 10
+#   - redshift     # Section 11
+
+# ----- RDS engine filter (sections 2 + 3) -----
+# Empty (default) = evaluate every visible RDS instance regardless of
+# engine. Set to scope iteration to specific engines for
+# defence-in-depth on a single-engine fleet.
+# rds_engines:
+#   - aurora-postgresql
+
+# ----- Backup retention minimum (CIS 2.8) -----
+# Default 7 matches FedRAMP / common enterprise baseline; CIS literal
+# wording is "> 0". Raise if your environment requires longer retention
+# (e.g. 30 for some regulated workloads).
+# rds_backup_retention_minimum_days: 7

@@ -186,7 +186,7 @@ The 36-control jump from 28 → 64 implemented covers six new custom libraries s
 - `aws_keyspaces_compliance` — Keyspaces §8 (4 controls).
 - `aws_timestream_compliance` — Timestream §10 (2 implemented + 5 attestation + 3 inherited).
 
-The `aws-sdk-memorydb` / `aws-sdk-keyspaces` / `aws-sdk-timestreamwrite` gems are NOT bundled in upstream `cincproject/auditor`. Consumers run against the **Risk Sentinel extended cinc-auditor image** ([sparc-iac#229](https://github.com/risk-sentinel/sparc-iac/issues/229)). With stock cinc-auditor, the affected controls fall back to attestation rationale via `connection_error` per [`docs/dev/Vendored_Resource_Gaps.md` §5](../../docs/dev/Vendored_Resource_Gaps.md#5-connection-precheck-describe-for-network-crossing-resources). DocumentDB / Neptune use the bundled `aws-sdk-rds` (engine: docdb / neptune) — no extension image needed for those.
+The `aws-sdk-memorydb` / `aws-sdk-keyspaces` / `aws-sdk-timestreamwrite` gems are NOT bundled in upstream `cincproject/auditor`. Consumers run against the **Risk Sentinel extended cinc-auditor image** ([your CI image-bake tracker](https://example.invalid/cross-repo-issue)). With stock cinc-auditor, the affected controls fall back to attestation rationale via `connection_error` per [`docs/dev/Vendored_Resource_Gaps.md` §5](../../docs/dev/Vendored_Resource_Gaps.md#5-connection-precheck-describe-for-network-crossing-resources). DocumentDB / Neptune use the bundled `aws-sdk-rds` (engine: docdb / neptune) — no extension image needed for those.
 
 ### Per-section breakdown
 

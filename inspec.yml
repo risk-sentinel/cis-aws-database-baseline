@@ -1,0 +1,171 @@
+name: cis-aws-database
+title: AWS Database Services CIS Baseline
+maintainer: Risk Sentinel
+copyright: Risk Sentinel
+copyright_email: support@risk-sentinel.org
+license: Apache-2.0
+summary: |
+  Validates AWS database services against CIS AWS Database Services Benchmark v2.0.0.
+  Targets AWS Commercial (aws) and AWS GovCloud non-DoD (aws-us-gov).
+  Per-control partition applicability is documented in
+  partition_applicability.yml and encoded as `tag applicable_partitions:`.
+version: 0.1.0
+inspec_version: '>= 5.0'
+
+inputs:
+  - name: aws_partition
+    type: string
+    value: aws
+    description: >-
+      AWS partition the scan is running against.
+      One of: aws (Commercial), aws-us-gov (GovCloud non-DoD).
+
+  - name: applicable_services
+    type: array
+    value: []
+    description: >-
+      Optional allowlist of database services this scan covers. Empty
+      (default) runs all sections. Non-empty runs only controls whose
+      CIS section targets a service in the list.
+
+      Section-to-service mapping:
+      - 'rds'         — Sections 2 + 3 (RDS + Aurora). Aurora is an RDS
+                        engine; both sections share the same resources.
+      - 'dynamodb'    — Section 4.
+      - 'elasticache' — Section 5.
+      - 'memorydb'    — Section 6.
+      - 'documentdb'  — Section 7.
+      - 'keyspaces'   — Section 8.
+      - 'neptune'     — Section 9.
+      - 'timestream'  — Section 10.
+      - 'redshift'    — Section 11.
+
+      Consumers running RDS or Aurora set `applicable_services: [rds]`.
+      Consumers with other database footprints list theirs; default
+      stays empty so no consumer is surprised by missing coverage.
+
+  - name: rds_engines
+    type: array
+    value: []
+    description: >-
+      Optional allowlist of RDS engine identifiers to evaluate against
+      the sections 2 + 3 (RDS / Aurora) controls. Empty (default) =
+      evaluate against every visible RDS instance regardless of engine.
+      Non-empty = filter describe iteration to instances whose `engine`
+      attribute matches a value in the list.
+
+      Common values: aurora-postgresql, aurora-mysql, postgres, mysql,
+      mariadb, oracle-ee, sqlserver-*.
+
+      A consumer running a single engine (e.g. Aurora-PostgreSQL only)
+      can pin `rds_engines: [aurora-postgresql]` — defence-in-depth
+      against a rogue test instance or an in-flight engine migration.
+
+      Engine-specific compliance at the database-configuration level
+      (postgresql.conf, parameter groups, version-specific settings) is
+      out of scope for this profile. Those checks live in the per-engine
+      CIS profiles (`cis-postgresql`, etc.), not here.
+
+  - name: rds_backup_retention_minimum_days
+    type: numeric
+    value: 7
+    description: >-
+      Minimum acceptable value for the `backup_retention_period`
+      attribute on RDS / Aurora clusters (CIS AWS Database Services 2.8).
+      CIS literal wording says "greater than 0"; FedRAMP and common
+      enterprise practice is ≥ 7 days. This input defaults to 7 so the
+      profile matches real-world baseline, with operators free to raise
+      or lower it via `inputs.yml` per environment.
+
+  - name: scan_regions
+    type: array
+    value: []
+    description: >-
+      Explicit region allowlist for region-scoped checks. Empty (default)
+      = dynamic discovery via compute_client.describe_regions — auto-
+      narrows to the target partition. Pin to a specific list when you
+      know the regions you operate in (e.g., `[us-east-1, us-west-2]`)
+      for faster scans and audit-defined region scope. Used by every
+      multi-region library in this profile (aws_dynamodb_compliance,
+      aws_redshift_compliance, aws_rds_cluster_compliance,
+      aws_memorydb_compliance, aws_keyspaces_compliance,
+      aws_timestream_compliance, aws_elasticache_compliance,
+      aws_db_cloudwatch_alarms_coverage).
+
+  - name: approved_db_engines
+    type: array
+    value: []
+    description: >-
+      Optional allowlist of RDS engine identifiers approved for use in
+      this account (CIS §3.1 — Choose the Appropriate Database Engine).
+      Empty (default) skips the engine-allowlist check entirely (any
+      engine passes). Non-empty fails C-3.1 for any RDS cluster whose
+      `engine` attribute is not in the list. Use to enforce a
+      consumer-specific engine catalogue.
+
+      Example: ['aurora-postgresql', 'aurora-mysql', 'docdb', 'neptune']
+      asserts that managed-cluster engines are limited to the four
+      engine families this account has reviewed for compliance.
+
+  - name: db_security_review_last_date
+    type: string
+    value: ''
+    description: >-
+      ISO date (YYYY-MM-DD) of the consumer's most recent database
+      security-configuration review. Drives the cadence assertion on
+      §3.11 (RDS) / §5.7 / §5.10 (ElastiCache) / §6.5 (MemoryDB) /
+      §9.6 (Neptune) / §10.9 (Timestream) — all six controls share
+      this single review cadence. Empty value FAILs all six controls;
+      operators must populate before the profile can evaluate.
+
+  - name: db_security_review_cadence_days
+    type: numeric
+    value: 365
+    description: >-
+      Maximum age (in days) for `db_security_review_last_date`. When
+      `today − last_date > cadence_days`, the six review-cadence
+      controls fail with an "overdue" rationale. Default 365 = annual
+      review. Tighten / loosen per organizational policy.
+
+  - name: db_security_review_attestation_reference
+    type: string
+    value: ''
+    description: >-
+      Optional free-form evidence reference (doc path / URL / ticket)
+      naming the location of the security-review record. Surfaces in
+      the failure message when the cadence assertion fires overdue,
+      so the next operator reading the HDF knows where to look. No
+      longer drives the attestation skip — superseded by
+      `db_security_review_last_date` + `db_security_review_cadence_days`.
+
+  - name: db_security_assessment_attestation_reference
+    type: string
+    value: ''
+    description: >-
+      Same shape as `db_security_review_attestation_reference` but
+      scoped to §7.11 (DocumentDB security assessments). Separate input
+      so consumers can route this control to a different review
+      cadence (e.g., bi-annual penetration test report) than the
+      configuration-review cadence above.
+
+  - name: db_iam_attestation_reference
+    type: string
+    value: ''
+    description: >-
+      Reference to the consumer's IAM policy / fine-grained access
+      review for Timestream specifically (§10.4 / §10.5 / §10.6).
+      Timestream's IAM-side and CloudTrail-side checks are
+      cross-resource and consumer-policy-dependent; rather than
+      duplicate cis-aws-foundations §1's IAM scan or cis-cloudtrail
+      §3's data-event coverage, this profile attests against the
+      reference. Empty default cites a generic rationale; populate
+      to surface the specific review document path.
+
+supports:
+  - platform: aws
+
+depends:
+  - name: inspec-aws
+    git: https://github.com/inspec/inspec-aws.git
+    branch: main
+    # TODO: pin to a tag after first green CI run.
