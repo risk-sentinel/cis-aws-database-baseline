@@ -1,0 +1,63 @@
+# encoding: UTF-8
+
+control 'C-7.10' do
+  title 'Ensure to Configure Backup Window'
+  desc  "
+    TODO: description missing in source XCCDF
+  "
+  desc  'rationale', "
+    TODO: description missing in source XCCDF
+  "
+  desc  'check', "
+    1. Perform Manual Backups (Optional)
+    - If desired, you can also create manual backups of your DocumentDB cluster.
+    - In the cluster details page, navigate to the `Backup` section.
+    - Click on the `Create backup` button.
+    - Provide a name for the backup and confirm the action.
+
+    2. Restore from Backups (Optional)
+    - If a disaster occurs or you need to restore your DocumentDB cluster to a previous state, you can restore it from the available backups.
+    - In the cluster details page, navigate to the `Backup` section.
+    - Choose the backup from which you want to restore.
+    - Follow the prompts and provide the necessary information to initiate the restore process.
+
+    3. Test Backup and Restore Procedures
+    - Periodically test the backup and restore procedures to ensure they work as expected.
+    - Perform test restores on non-production environments to validate the integrity and completeness of the backup data.
+
+    4. Regularly Monitor and Validate Backups
+    - Regularly monitor the backup status and validate that the backups are completed successfully.
+    - Monitor backup storage usage to ensure it is within the desired limits and plan for additional storage as needed.
+  "
+  desc  'fix', "
+    TODO: fix text missing in source XCCDF
+  "
+  tag severity:              'medium'
+  tag nist:                  ['CM-6 b']
+  tag cci:                   ['CCI-000366']
+  tag cis_number:            '7.10'
+  tag cis_rid:               '7.10'
+  tag cis_benchmark:         'CIS AWS Database Services Benchmark v2.0.0'
+  tag cis_rule_id:           'SV-0710r1_rule'
+  tag cis_version:           '2.0.0'
+  tag cis_level:             1
+  tag cis_scored:            true
+  tag applicable_partitions: ['aws', 'aws-us-gov']
+  tag implementation_status: 'implemented'
+  tag exec_validated:        false
+
+  applicable_partition = ['aws', 'aws-us-gov'].include?(input('aws_partition'))
+  applicable_service   = Array(input('applicable_services')).empty? || Array(input('applicable_services')).include?('documentdb')
+  applicable           = applicable_partition && applicable_service
+
+  impact 0.5
+  impact 0.0 unless applicable
+
+  only_if("DOCUMENTDB out of scope (partition=#{input('aws_partition')}, applicable_services=#{input('applicable_services')})") do
+    applicable
+  end
+
+  describe aws_rds_cluster_compliance(regions: input('scan_regions'), engines: ['docdb']) do
+    its('clusters_without_backup_window') { should be_empty }
+  end
+end

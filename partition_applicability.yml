@@ -1,0 +1,594 @@
+# Per-control partition applicability — auditor-facing flat table.
+# Values per partition: applicable | not_applicable | partial
+# `reason` is required when not_applicable or partial.
+# Keep this file in sync with `tag applicable_partitions:` on each control.
+
+controls:
+  - id: 2.1
+    title: "Ensure the Use of Security Groups"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 2.2
+    title: "Ensure Data at Rest is Encrypted"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 2.3
+    title: "Ensure Data in Transit Encryption is Enforced"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 2.4
+    title: "Ensure IAM Roles and Policies are Created"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 2.5
+    title: "Ensure Database Audit Logging is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 2.6
+    title: "Ensure Passwords are Regularly Rotated"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 2.7
+    title: "Ensure Least Privilege Access"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 2.8
+    title: "Ensure Automatic Backups and Retention Policies are configured"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 2.9
+    title: "Ensure Database is not Publicly accessible"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 2.10
+    title: "Ensure Database has IAM Auth is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 2.11
+    title: "Ensure Database has delete protection enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 7.1
+    title: "Ensure Network Architecture Planning"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 7.2
+    title: "Ensure VPC Security is Configured"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 7.3
+    title: "Ensure Encryption at Rest is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 7.4
+    title: "Ensure Encryption in Transit is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 7.5
+    title: "Ensure to Implement Access Control and Authentication"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 7.6
+    title: "Ensure Audit Logging is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 7.7
+    title: "Ensure Regular Updates and Patches"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 7.8
+    title: "Ensure to Implement Monitoring and Alerting"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 7.9
+    title: "Ensure to Implement Backup and Disaster Recovery"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 7.10
+    title: "Ensure to Configure Backup Window"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 7.11
+    title: "Ensure to Conduct Security Assessments"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 7.12
+    title: "Ensure DocumentDB has delete protection enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 4.1
+    title: "Ensure AWS Identity and Access Management (IAM) is in use"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 4.2
+    title: "Ensure Fine-Grained Access Control is implemented"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 4.3
+    title: "Ensure DynamoDB Encryption at Rest"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 4.4
+    title: "Ensure DynamoDB Encryption in Transit"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 4.5
+    title: "Ensure VPC Endpoints are configured"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 4.6
+    title: "Ensure DynamoDB Streams and AWS Lambda for Automated Compliance Checking is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 4.7
+    title: "Ensure Monitor and Audit Activity is enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 4.8
+    title: "Ensure Database has delete protection enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 4.9
+    title: "Ensure Database has Backup enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 5.1
+    title: "Ensure Secure Access to ElastiCache"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 5.2
+    title: "Ensure Network Security is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 5.3
+    title: "Ensure Encryption at Rest and in Transit is configured"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 5.4
+    title: "Ensure Automatic Updates and Patching are Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 5.5
+    title: "Ensure Virtual Private Cloud (VPC) is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 5.6
+    title: "Ensure Monitoring and Logging is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 5.7
+    title: "Ensure Security Configurations are Reviewed Regularly"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 5.8
+    title: "Ensure Authentication and Access Control is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 5.9
+    title: "Ensure Audit Logging is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 5.10
+    title: "Ensure Security Configurations are Reviewed Regularly"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 5.11
+    title: "Ensure ElastiCache has Cluster Mode Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 5.12
+    title: "Ensure ElastiCache is deployed across multiple Availability Zones (AZs)"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 5.13
+    title: "Ensure ElastiCache has automatic backups enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 8.1
+    title: "Ensure Keyspace Security is Configured"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 8.2
+    title: "Ensure Network Security is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 8.3
+    title: "Ensure Data at Rest and in Transit is Encrypted"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 8.4
+    title: "Ensure Amazon Keyspaces tables have Point-in-Time Recovery (PITR) enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 6.1
+    title: "Ensure Network Security is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 6.2
+    title: "Ensure Data at Rest and in Transit is Encrypted"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 6.3
+    title: "Ensure Authentication and Access Control is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 6.4
+    title: "Ensure Audit Logging is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 6.5
+    title: "Ensure Security Configurations are Reviewed Regularly"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 6.6
+    title: "Ensure Monitoring and Alerting is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 6.7
+    title: "Ensure MemoryDB has automatic backups enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 9.1
+    title: "Ensure Network Security is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 9.2
+    title: "Ensure Data at Rest is Encrypted"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 9.3
+    title: "Ensure Data in Transit is Encrypted"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 9.4
+    title: "Ensure Authentication and Access Control is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 9.5
+    title: "Ensure Audit Logging is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 9.6
+    title: "Ensure Security Configurations are Reviewed Regularly"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 9.7
+    title: "Ensure Monitoring and Alerting is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 9.8
+    title: "Ensure Neptune Database is not Publicly accessible"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 9.9
+    title: "Ensure Neptune Database has automatic backups enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 9.10
+    title: "Ensure Database has delete protection enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 9.11
+    title: "Ensure Neptune DB instances are deployed across multiple Availability Zones (AZs)"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 3.1
+    title: "Ensure to Choose the Appropriate Database Engine"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 3.2
+    title: "Ensure to Create The Appropriate Deployment Configuration"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 3.3
+    title: "Ensure to Create a Virtual Private Cloud (VPC)"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 3.4
+    title: "Ensure to Configure Security Groups"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 3.5
+    title: "Enable Encryption at Rest"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 3.6
+    title: "Enable Encryption in Transit"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 3.7
+    title: "Ensure to Implement Access Control and Authentication"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 3.8
+    title: "Ensure to Regularly Patch Systems"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 3.9
+    title: "Ensure Monitoring and Logging is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 3.10
+    title: "Ensure to Enable Backup and Recovery"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 3.11
+    title: "Ensure to Regularly Review Security Configuration"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 3.12
+    title: "Ensure Database is not Publicly accessible"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 3.13
+    title: "Ensure Database has IAM Auth is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 3.14
+    title: "Ensure Database has delete protection enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 10.1
+    title: "Ensure Data Ingestion is Secure"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 10.2
+    title: "Ensure Data at Rest is Encrypted"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 10.3
+    title: "Ensure Encryption in Transit is Configured"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 10.4
+    title: "Ensure Access Control and Authentication is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 10.5
+    title: "Ensure Fine-Grained Access Control is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 10.6
+    title: "Ensure Audit Logging is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 10.7
+    title: "Ensure Regular Updates and Patches are Installed"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 10.8
+    title: "Ensure Monitoring and Alerting is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 10.9
+    title: "Ensure to Review and Update the Security Configuration"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 10.10
+    title: "Ensure Database has automated Backups enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 11.1
+    title: "Ensure to Implement Identity and Access Management (IAM)"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 11.2
+    title: "Ensure Network Access is Secure"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 11.3
+    title: "Ensure Data at Rest is Encrypted"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 11.4
+    title: "Ensure Data in Transit is Encrypted"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 11.5
+    title: "Ensure to Implement Access Control and Authentication"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 11.6
+    title: "Ensure Monitoring and Logging is Enabled"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
+  - id: 11.7
+    title: "Ensure to Enable Backup and Recovery"
+    aws: applicable
+    aws-us-gov: applicable
+    reason: ''
+
