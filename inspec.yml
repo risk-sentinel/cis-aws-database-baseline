@@ -161,6 +161,80 @@ inputs:
       reference. Empty default cites a generic rationale; populate
       to surface the specific review document path.
 
+  # ---- document_attestation evidence-class bases (sparc-validate#154) ----
+  # Three evidence classes, each with its own base + a provider inferred from
+  # the base's URI scheme. The helper (_attestation_helpers.rb) composes
+  # attestation_uri(:class, 'name') -> "<base>/<name>.<ext>"; an UNSET base
+  # resolves to '' -> the control SKIPs (stays saf attest apply-able). A
+  # per-control override input still wins. Providers: s3:// https://
+  # github://owner/repo/path[@ref] gitlab://<enc-project>/path[@ref] file:///path
+  - name: leveraged_evidence_base
+    type: string
+    value: ''
+    description: >-
+      Base location of leveraged-SYSTEM authorizations the boundary inherits
+      (AWS FedRAMP / SOC 2 / ISO). WORM; one doc <- many controls. Maps to the
+      `inherited` controls (C-10.1 / C-10.3 / C-10.7 / C-4.4).
+  - name: policy_provider_base
+    type: string
+    value: ''
+    description: >-
+      Base location of policy-PROVIDER documents the boundary leverages (shared
+      / templated / parent-org policies) — separate from the boundary's own docs.
+  - name: boundary_docs_base
+    type: string
+    value: ''
+    description: >-
+      Base location of the boundary system's OWN governance docs (policies,
+      plans, periodic-review / assessment records). Maps to boundary-specific
+      controls (e.g. C-7.11 security-assessment cadence).
+  - name: leveraged_evidence_max_age_days
+    type: numeric
+    value: 365
+    description: >-
+      Staleness window (days) for the leveraged-systems AWS evidence manifests
+      consumed by the inherited-control refactor (annual AWS Artifact cadence).
+
+  # ---- per-control document_attestation overrides (sparc-validate#154) ----
+  # Optional. When set, the URI overrides the class-resolved default for that
+  # control. Empty -> resolves via the evidence class above, and SKIPs if that
+  # base is also unset.
+  - name: c_7_11_attestation_uri
+    type: string
+    value: ''
+    description: >-
+      Override URI of the DocumentDB security-assessment / pen-test record
+      (C-7.11). Empty -> resolves via boundary_docs_base; SKIPs if unset.
+  - name: c_7_11_attestation_max_age_days
+    type: numeric
+    value: 365
+    description: >-
+      Staleness window (days) for the C-7.11 security-assessment attestation.
+  - name: c_10_1_evidence_uri
+    type: string
+    value: ''
+    description: >-
+      Override URI of the AWS leveraged-systems manifest backing C-10.1
+      (Timestream TLS ingestion). Empty -> resolves via leveraged_evidence_base.
+  - name: c_10_3_evidence_uri
+    type: string
+    value: ''
+    description: >-
+      Override URI of the AWS leveraged-systems manifest backing C-10.3
+      (Timestream TLS in transit). Empty -> resolves via leveraged_evidence_base.
+  - name: c_10_7_evidence_uri
+    type: string
+    value: ''
+    description: >-
+      Override URI of the AWS leveraged-systems manifest backing C-10.7
+      (Timestream managed updates/patches). Empty -> resolves via leveraged_evidence_base.
+  - name: c_4_4_evidence_uri
+    type: string
+    value: ''
+    description: >-
+      Override URI of the AWS leveraged-systems manifest backing C-4.4
+      (DynamoDB TLS in transit). Empty -> resolves via leveraged_evidence_base.
+
 supports:
   - platform: aws
 

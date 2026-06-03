@@ -91,11 +91,40 @@ control 'C-7.11' do
     applicable
   end
 
-  ref = input('db_security_assessment_attestation_reference').to_s
-  rationale = ref.empty? ?
-    "Requires manual review and attestation provided for this control (operators attest from their bi-annual security assessment / pen-test record; populate db_security_assessment_attestation_reference input to surface the reference here)" :
-    "Requires manual review and attestation provided for this control (consumer attestation: #{ref})"
-  describe 'DocumentDB security assessment cadence' do
-    skip rationale
+  # Converted from Skip-with-rationale to Pass-with-evidence via document_attestation
+  # (sparc-validate#154). The bi-annual security-assessment / pen-test record is a
+  # `boundary`-class doc (the boundary's own assessment). The URI defaults via
+  # attestation_uri(:boundary, …), which resolves against boundary_docs_base and
+  # returns '' when unset — so an unconfigured consumer SKIPs (preserving the
+  # existing attestation rationale + `saf attest apply` fallback) rather than
+  # FAILing. A per-control override (c_7_11_attestation_uri) still wins. Local var
+  # is `uri` to avoid shadowing the attestation_uri helper method.
+  uri          = input('c_7_11_attestation_uri', value: attestation_uri(:boundary, 'C-7.11'))
+  max_age_days = input('c_7_11_attestation_max_age_days', value: 365)
+
+  if uri.to_s.empty?
+    ref = input('db_security_assessment_attestation_reference').to_s
+    rationale = ref.empty? ?
+      "attestation-required: bi-annual DocumentDB security assessment / pen-test record. Set " \
+      "boundary_docs_base / c_7_11_attestation_uri to the assessment document, or supply a CMS-pattern " \
+      "attestation via `saf attest apply` (populate db_security_assessment_attestation_reference to surface a reference here)." :
+      "attestation-required: bi-annual DocumentDB security assessment / pen-test record (consumer attestation: #{ref}). " \
+      "Set boundary_docs_base / c_7_11_attestation_uri to lift to Pass-with-evidence."
+    describe 'DocumentDB security assessment cadence' do
+      skip rationale
+    end
+  else
+    doc = document_attestation(uri, max_age_days: max_age_days)
+    describe "C-7.11 DocumentDB security-assessment attestation (#{uri})" do
+      it 'is reachable (no connection error)' do
+        expect(doc.connection_error).to be_nil, "attestation unreachable: #{doc.connection_error}"
+      end
+      it 'exists' do
+        expect(doc.exists?).to eq(true)
+      end
+      it "is current within #{max_age_days} days" do
+        expect(doc.current?).to eq(true)
+      end
+    end
   end
 end
