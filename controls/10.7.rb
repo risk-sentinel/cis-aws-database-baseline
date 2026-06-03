@@ -78,9 +78,33 @@ control 'C-10.7' do
     applicable
   end
 
-  describe 'AWS shared-responsibility inheritance' do
-    it 'is satisfied by AWS-managed controls — Amazon Timestream is a fully-managed service; AWS handles all engine updates and patches transparently per the AWS shared-responsibility model (evidence: AWS SOC 2 Type II, AWS FedRAMP Moderate, AWS FedRAMP High, AWS ISO 27001; AWS Artifact: https://console.aws.amazon.com/artifact/)' do
-      expect(true).to eq(true)
+  # Inherited from AWS shared-responsibility — refactored from the expect(true)
+  # stub to a real freshness check against SPARC's pulled AWS-evidence manifest
+  # (sparc-validate#154). Defaults via attestation_uri(:leveraged, 'aws-soc2-type2'),
+  # which resolves against leveraged_evidence_base; UNSET -> '' -> Skip (audit-
+  # defensible per the ratified #154 §10.3 — no vacuous pass; a leveraged-systems
+  # manifest or SAF attestation must back it). Per-control override: c_10_7_evidence_uri.
+  reason       = 'Amazon Timestream is a fully-managed service; AWS handles all engine updates and patches transparently per the AWS shared-responsibility model (evidence: AWS SOC 2 Type II, AWS FedRAMP Moderate, AWS FedRAMP High, AWS ISO 27001; AWS Artifact: https://console.aws.amazon.com/artifact/)'
+  uri          = input('c_10_7_evidence_uri', value: attestation_uri(:leveraged, 'aws-soc2-type2', ext: 'json'))
+  max_age_days = input('leveraged_evidence_max_age_days', value: 365)
+
+  if uri.to_s.empty?
+    describe 'C-10.7 AWS shared-responsibility evidence (no leveraged source configured)' do
+      skip "inherited-from-aws: #{reason} Set leveraged_evidence_base / c_10_7_evidence_uri to the pulled AWS " \
+           "evidence manifest (SOC 2 / FedRAMP / ISO), or supply a CMS-pattern attestation via `saf attest apply`."
+    end
+  else
+    doc = document_attestation(uri, max_age_days: max_age_days)
+    describe "C-10.7 AWS shared-responsibility leveraged evidence (#{uri})" do
+      it 'is reachable (no connection error)' do
+        expect(doc.connection_error).to be_nil, "evidence unreachable: #{doc.connection_error}"
+      end
+      it 'exists' do
+        expect(doc.exists?).to eq(true)
+      end
+      it "is current within #{max_age_days} days" do
+        expect(doc.current?).to eq(true)
+      end
     end
   end
 end
