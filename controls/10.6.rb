@@ -61,8 +61,7 @@ control 'C-10.6' do
   tag cis_level:             1
   tag cis_scored:            true
   tag applicable_partitions: ['aws', 'aws-us-gov']
-  tag implementation_status: 'alternative'
-  tag attestation_category:  'operational'
+  tag implementation_status: 'implemented'
   tag exec_validated:        false
 
   applicable_partition = ['aws', 'aws-us-gov'].include?(input('aws_partition'))
@@ -76,11 +75,20 @@ control 'C-10.6' do
     applicable
   end
 
-  ref = input('db_iam_attestation_reference').to_s
-  rationale = ref.empty? ?
-    "Requires manual review and attestation provided for this control (Timestream API call logging is via CloudTrail data events; consumers attest from their CloudTrail data-event coverage review for Timestream resources. Populate db_iam_attestation_reference input to surface the reference here)" :
-    "Requires manual review and attestation provided for this control (consumer attestation: #{ref})"
-  describe 'Timestream audit logging' do
-    skip rationale
+  # VERIFY-don't-trust + each_profile_stands_alone (Phase C correction): built
+  # in-profile (NOT deferred to foundations IAM / cloudtrail). VERIFY by default;
+  # attestation is an explicit opt-out (set c_10_6_attestation_uri).
+  uri = input('c_10_6_attestation_uri', value: '')
+  if uri.to_s.empty?
+    describe aws_timestream_audit_coverage do
+      it { should be_covered }
+    end
+  else
+    doc = document_attestation(uri, max_age_days: input('attestation_max_age_days', value: 365))
+    describe "Timestream audit logging attestation (#{uri})" do
+      it('is reachable') { expect(doc.connection_error).to be_nil, "attestation unreachable: #{doc.connection_error}" }
+      it('exists') { expect(doc.exists?).to eq(true) }
+      it('is current') { expect(doc.current?).to eq(true) }
+    end
   end
 end
