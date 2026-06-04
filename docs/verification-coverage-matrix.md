@@ -15,12 +15,14 @@ attestations are genuinely unverifiable (so an auditor can't be misled by a doc)
 | 90 controls | `implemented` | Direct API assertion of the actual state |
 | C-10.1 / C-10.3 / C-10.7 / C-4.4 | `inherited` → `:leveraged` | AWS service-default (TLS/patching); AWS authorization freshness-checked (#160) |
 | **C-7.11** DocumentDB security assessment | attest (justified) | Bi-annual pen-test / security-assessment is an off-platform activity; no API exposes "an assessment was performed." Freshness floor on the record. |
-| **C-10.4** Timestream access control | attest (cross-domain) | Per-table **IAM policy** granularity — *which principals may access which tables* — is an account-wide IAM-policy-graph analysis (a cis-aws-foundations §1 concern), not a Timestream-API fact. |
-| **C-10.5** Timestream fine-grained access | attest (cross-domain) | Same — IAM-policy-condition analysis, not exposed by the Timestream API. |
-| **C-10.6** Timestream audit logging | attest (verifiable — cross-domain, deferred) | **Verifiable** via CloudTrail **data-event** coverage for Timestream — but that's the cis-cloudtrail profile's mechanism (C-CT-3.x), not a Timestream-API fact. Timestream is also out of SPARC's runtime scope. Cross-referenced; net-new in-profile resource not shipped unvalidated. |
+| **C-10.4** Timestream access control | **VERIFY (in-profile)** | `aws_timestream_access_iam` scans customer-managed policies for broad `timestream:*` on `Resource:*` (least-privilege). Built in-profile per each_profile_stands_alone, NOT deferred to foundations §1. exec_validated:false. |
+| **C-10.5** Timestream fine-grained access | **VERIFY (in-profile)** | `aws_timestream_access_iam.unscoped_resource_policies` — FGAC requires per-database/table resource scoping (no `Resource:*`). exec_validated:false. |
+| **C-10.6** Timestream audit logging | **VERIFY (in-profile)** | `aws_timestream_audit_coverage` checks every CloudTrail trail's event selectors for an `AWS::Timestream` data-resource. Built in-profile per each_profile_stands_alone (NOT deferred to cis-cloudtrail). exec_validated:false. |
 
-## Why no in-profile automation added in Phase C
-The residual attestations are either off-platform governance (C-7.11) or
-cross-domain IAM/CloudTrail concerns (C-10.4/10.5/10.6) better verified by the
-IAM (foundations §1) and CloudTrail profiles. Each retains a `document_attestation`
-freshness floor. The trust boundary is now explicit and auditable.
+## Residual attestation — why
+- **C-7.11** DocumentDB security assessment — bi-annual pen-test is an off-platform
+  activity; no API exposes "an assessment was performed." Freshness floor on the record.
+
+C-10.4/10.5/10.6 (Timestream IAM + audit) are now VERIFIED in-profile (above) per
+each_profile_stands_alone — no longer deferred to foundations/cloudtrail. The trust
+boundary is explicit and auditable.
