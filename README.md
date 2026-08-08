@@ -208,3 +208,7 @@ The `aws-sdk-memorydb` / `aws-sdk-keyspaces` / `aws-sdk-timestreamwrite` gems ar
 A control tagged `tag exec_validated: false` has a syntactically-valid describe body but has **not** been run against live resources. Consumers running RDS-only (e.g., `applicable_services: [rds]`) will validate sections 2 + 3 on the first live `cinc-auditor exec`. Sections 4–11 controls carry `exec_validated: false` and stay untested — a consumer enabling any of those services via `applicable_services` is expected to validate before relying on pass/fail output.
 
 See the top-level `README.md` for overall repo state and the sub-issue tracker for per-profile progress.
+
+---
+
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=risk-sentinel_cis-aws-database-v2.0.0)](https://sonarcloud.io/summary/new_code?id=risk-sentinel_cis-aws-database-v2.0.0)
