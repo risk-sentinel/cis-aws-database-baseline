@@ -42,10 +42,31 @@ module AwsDbComplianceShared
     "no permission",
   ].freeze
 
+  # A failure that means "we could not look", as distinct from "the API said no
+  # to this specific call". Endpoint-discovery services (Timestream) raise this
+  # when the account is not entitled to the service at all: the SDK cannot even
+  # resolve an endpoint, so nothing was ever asked.
+  #
+  # It matters that this sets connection_error rather than warning. Warning
+  # leaves the collections empty, and an empty collection passes every
+  # `should be_empty` assertion — so the control would report compliant having
+  # assessed nothing. Not being able to look is not the same as there being
+  # nothing to find.
+  UNDETERMINABLE_MESSAGE_FRAGMENTS = [
+    "Endpoint discovery failed",
+    "discovered endpoint is not working",
+  ].freeze
+
+  def undeterminable_error?(err)
+    return true if err.class.name.to_s.end_with?("EndpointDiscoveryError")
+    msg = err.message.to_s
+    UNDETERMINABLE_MESSAGE_FRAGMENTS.any? { |fragment| msg.include?(fragment) }
+  end
+
   # Call from a `rescue Aws::Errors::ServiceError => e` block.
   # The receiver must be an instance with a writable @connection_error.
   def record_access_denied_or_warn(resource_label, region, op, err)
-    if access_denied_error?(err)
+    if access_denied_error?(err) || undeterminable_error?(err)
       @connection_error ||= access_denied_message(resource_label, region, op, err)
     else
       ::Inspec::Log.warn("#{resource_label}: #{region} #{op} failed: #{err.class.name}: #{err.message}")

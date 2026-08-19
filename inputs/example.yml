@@ -1,0 +1,82 @@
+# =============================================================================
+# cis-aws-database-baseline — reference inputs
+#
+#   cp inputs/example.yml inputs/mine.yml   # edit, then:
+#   cinc-auditor exec . -t aws:// --input-file inputs/mine.yml
+#
+# --input-file is NOT optional. cinc-auditor does not auto-load a profile-root
+# inputs file, and the scoping pair below decides both what is assessed and how
+# long the run takes.
+#
+# READ THIS FIRST: with scan_regions empty this profile enumerates EVERY region
+# across every database service, and a full-estate run can take well over ten
+# minutes. Pinning scan_regions is the difference between a scan you can put in
+# CI and one that times out.
+# =============================================================================
+
+# ---- REQUIRED TO RUN --------------------------------------------------------
+
+# Which AWS partition is being scanned.
+#   aws         AWS Commercial
+#   aws-us-gov  AWS GovCloud (non-DoD)
+aws_partition: aws
+
+# ---- SCOPING — set these before your first run ------------------------------
+
+# Regions to enumerate.
+# EMPTY = every region. Correct, slow, and the single biggest lever on runtime.
+#   scan_regions: [us-east-1, us-west-2]
+scan_regions: []
+
+# Database services to assess. This profile covers far more than any one
+# consumer runs — RDS, Aurora, DynamoDB, DocumentDB, Neptune, Redshift,
+# ElastiCache, MemoryDB, Timestream, Keyspaces.
+# EMPTY = assess whatever is discovered, and scope out what is not deployed.
+# Naming your services explicitly is faster and makes the denominator obvious.
+#   applicable_services: [rds, dynamodb, elasticache]
+applicable_services: []
+
+# RDS engines in scope, when RDS is assessed.
+# EMPTY = every engine discovered.
+#   rds_engines: [postgres, aurora-postgresql]
+rds_engines: []
+
+# ---- POLICY THRESHOLDS ------------------------------------------------------
+
+# Minimum automated-backup retention, in days, before the control fails.
+rds_backup_retention_minimum_days: 7
+
+# Engines approved for use. EMPTY = no engine policy is enforced and the control
+# reports that it has nothing to check against.
+#   approved_db_engines: [postgres, aurora-postgresql]
+approved_db_engines: []
+
+# How often a database security review must happen, and when the last one was.
+# db_security_review_last_date EMPTY = the review-cadence control cannot be
+# evaluated and skips with a rationale.
+#   db_security_review_last_date: '2026-06-01'
+db_security_review_cadence_days: 365
+db_security_review_last_date: ''
+
+# ---- ATTESTATION — evidence for what no database API can answer -------------
+#
+# Free-form references (doc path, URL, ticket id). EMPTY = the control skips
+# with a rationale rather than passing.
+
+db_security_review_attestation_reference: ''
+db_security_assessment_attestation_reference: ''
+db_iam_attestation_reference: ''
+
+leveraged_evidence_base: ''
+policy_provider_base: ''
+boundary_docs_base: ''
+leveraged_evidence_max_age_days: 365
+
+# Direct URI overrides for the individually-attested controls.
+# EMPTY = resolved from the bases above; if those are empty too, they skip.
+c_7_11_attestation_uri: ''
+c_7_11_attestation_max_age_days: 365
+c_10_1_evidence_uri: ''
+c_10_3_evidence_uri: ''
+c_10_7_evidence_uri: ''
+c_4_4_evidence_uri: ''

@@ -44,6 +44,19 @@
 class AwsTimestreamCompliance < AwsResourceBase
   include AwsDbComplianceShared
 
+  # Timestream is an endpoint-discovery service: the SDK calls DescribeEndpoints
+  # before the real operation. On an account that is not a Timestream customer
+  # that call is denied, and the SDK raises Aws::Errors::EndpointDiscoveryError
+  # — which descends from RuntimeError, NOT from Aws::Errors::ServiceError. So
+  # rescuing ServiceError alone let it escape, and controls C-10.2 and C-10.10
+  # reported "Control Source Code Error" on every account without Timestream.
+  #
+  # Not being able to look is not the same as being non-compliant. Catching it
+  # here routes the failure into connection_error, which the controls already
+  # handle by degrading to the attestation path.
+  DISCOVERY_ERRORS = [::Aws::Errors::ServiceError,
+                      (defined?(::Aws::Errors::EndpointDiscoveryError) ? ::Aws::Errors::EndpointDiscoveryError : nil)].compact.freeze
+
   name "aws_timestream_compliance"
   desc "Amazon Timestream LiveAnalytics compliance (CIS §10)."
   example "
@@ -109,7 +122,7 @@ class AwsTimestreamCompliance < AwsResourceBase
   def walk_region(region)
     client = ::Aws::TimestreamWrite::Client.new(region: region)
     list_databases(client, region).each { |db| walk_database(client, region, db) }
-  rescue ::Aws::Errors::ServiceError => e
+  rescue *DISCOVERY_ERRORS => e
     record_access_denied_or_warn("aws_timestream_compliance", region, "fetch", e)
   end
 
@@ -120,7 +133,7 @@ class AwsTimestreamCompliance < AwsResourceBase
       resp =
         begin
           client.list_databases(next_token: next_token)
-        rescue ::Aws::Errors::ServiceError => e
+        rescue *DISCOVERY_ERRORS => e
           record_access_denied_or_warn("aws_timestream_compliance", region, "list_databases", e)
           return out
         end
@@ -154,7 +167,7 @@ class AwsTimestreamCompliance < AwsResourceBase
       resp =
         begin
           client.list_tables(database_name: db_record[:database_name], next_token: next_token)
-        rescue ::Aws::Errors::ServiceError => e
+        rescue *DISCOVERY_ERRORS => e
           record_access_denied_or_warn("aws_timestream_compliance", region, "list_tables(#{db_record[:database_name]})", e)
           return out
         end
