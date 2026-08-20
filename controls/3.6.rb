@@ -60,16 +60,10 @@ control 'C-3.6' do
 
   applicable_partition = ['aws', 'aws-us-gov'].include?(input('aws_partition'))
   applicable_service   = Array(input('applicable_services')).empty? || Array(input('applicable_services')).include?('rds')
-  # Empty collection => Not Applicable, never silence. See README, "Empty collections".
-  scoped_items = aws_rds_clusters.entries
-  applicable           = applicable_partition && applicable_service && !scoped_items.empty?
-
   impact 0.5
-  impact 0.0 unless applicable
-
-  only_if("RDS out of scope (partition=#{input('aws_partition')}, applicable_services=#{input('applicable_services')}) or none present in this account") do
-    applicable
-  end
+  scoped_items = scoped_or_na(aws_rds_clusters.entries,
+                              in_scope: applicable_partition && applicable_service,
+                              reason:   "RDS out of scope (partition=#{input('aws_partition')}, applicable_services=#{input('applicable_services')}) or none present in this account")
 
   # Same technical bar as CIS 2.3 — engine-level TLS enforcement via
   # cluster parameter group. Uses the local aws_rds_cluster_parameter_group
