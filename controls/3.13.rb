@@ -144,13 +144,7 @@ control 'C-3.13' do
 
   applicable_partition = ['aws', 'aws-us-gov'].include?(input('aws_partition'))
   applicable_service   = Array(input('applicable_services')).empty? || Array(input('applicable_services')).include?('rds')
-  # Hoisted so an EMPTY collection is a declared state rather than an absent one.
-  # The service can be in scope while the account holds none of the resource: the
-  # loop below then never executed, the control registered no describe blocks, and
-  # it emitted ZERO results — neither passed nor Not Applicable, just absent. A
-  # control that asserts nothing while reporting not-red is the failure this
-  # profile exists to catch, and it also fails `hdf convert`, whose schema requires
-  # at least one result per requirement.
+  # Empty collection => Not Applicable, never silence. See README, "Empty collections".
   scoped_items = aws_rds_clusters.entries
   applicable           = applicable_partition && applicable_service && !scoped_items.empty?
 
