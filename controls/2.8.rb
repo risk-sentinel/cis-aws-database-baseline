@@ -53,19 +53,15 @@ control 'C-2.8' do
 
   applicable_partition = ['aws', 'aws-us-gov'].include?(input('aws_partition'))
   applicable_service   = Array(input('applicable_services')).empty? || Array(input('applicable_services')).include?('rds')
-  applicable           = applicable_partition && applicable_service
-
   impact 0.5
-  impact 0.0 unless applicable
-
-  only_if("RDS out of scope (partition=#{input('aws_partition')}, applicable_services=#{input('applicable_services')})") do
-    applicable
-  end
+  scoped_items = scoped_or_na(aws_rds_clusters.entries,
+                              in_scope: applicable_partition && applicable_service,
+                              reason:   "RDS out of scope (partition=#{input('aws_partition')}, applicable_services=#{input('applicable_services')}) or none present in this account")
 
   allowed_engines = Array(input('rds_engines'))
   retention_min   = input('rds_backup_retention_minimum_days')
 
-  aws_rds_clusters.entries.each do |c|
+  scoped_items.each do |c|
     next unless allowed_engines.empty? || allowed_engines.include?(c[:engine])
 
     describe aws_rds_cluster(db_cluster_identifier: c[:db_cluster_identifier]) do
