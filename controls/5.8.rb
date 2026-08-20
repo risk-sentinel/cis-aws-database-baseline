@@ -66,16 +66,24 @@ control 'C-5.8' do
 
   applicable_partition = ['aws', 'aws-us-gov'].include?(input('aws_partition'))
   applicable_service   = Array(input('applicable_services')).empty? || Array(input('applicable_services')).include?('elasticache')
-  applicable           = applicable_partition && applicable_service
+  # Hoisted so an EMPTY collection is a declared state rather than an absent one.
+  # The service can be in scope while the account holds none of the resource: the
+  # loop below then never executed, the control registered no describe blocks, and
+  # it emitted ZERO results — neither passed nor Not Applicable, just absent. A
+  # control that asserts nothing while reporting not-red is the failure this
+  # profile exists to catch, and it also fails `hdf convert`, whose schema requires
+  # at least one result per requirement.
+  scoped_items = aws_elasticache_clusters.ids
+  applicable           = applicable_partition && applicable_service && !scoped_items.empty?
 
   impact 0.5
   impact 0.0 unless applicable
 
-  only_if("ELASTICACHE out of scope (partition=#{input('aws_partition')}, applicable_services=#{input('applicable_services')})") do
+  only_if("ELASTICACHE out of scope (partition=#{input('aws_partition')}, applicable_services=#{input('applicable_services')}) or none present in this account") do
     applicable
   end
 
-  aws_elasticache_clusters.ids.each do |id|
+  scoped_items.each do |id|
     describe aws_elasticache_cluster(cache_cluster_id: id) do
       its('auth_token_enabled') { should eq true }
     end
