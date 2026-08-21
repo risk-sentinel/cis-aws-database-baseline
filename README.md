@@ -1,6 +1,6 @@
 # cis-aws-database-baseline
 
-[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=risk-sentinel_cis-aws-database-v2.0.0)](https://sonarcloud.io/summary/new_code?id=risk-sentinel_cis-aws-database-v2.0.0)
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=risk-sentinel_cis-aws-database-baseline)](https://sonarcloud.io/summary/new_code?id=risk-sentinel_cis-aws-database-baseline)
 
 InSpec / CINC Auditor profile validating AWS database services against the
 **CIS AWS Database Services Benchmark v2.0.0** — 98 controls across RDS, Aurora,
