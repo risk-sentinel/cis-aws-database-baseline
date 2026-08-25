@@ -77,10 +77,10 @@ control 'C-10.1' do
   end
 
   # Inherited from AWS shared-responsibility — refactored from the expect(true)
-  # stub to a real freshness check against SPARC's pulled AWS-evidence manifest
-  # (sparc-validate#154). Defaults via attestation_uri(:leveraged, 'aws-soc2-type2'),
+  # stub to a real freshness check against the consumer's pulled AWS-evidence
+  # manifest. Defaults via attestation_uri(:leveraged, 'aws-soc2-type2'),
   # which resolves against leveraged_evidence_base; UNSET -> '' -> Skip (audit-
-  # defensible per the ratified #154 §10.3 — no vacuous pass; a leveraged-systems
+  # defensible by design — no vacuous pass; a leveraged-systems
   # manifest or SAF attestation must back it). Per-control override: c_10_1_evidence_uri.
   reason       = 'AWS Timestream enforces TLS on all ingestion endpoints by default; this is an AWS service-default control inherited from the AWS shared-responsibility model (evidence: AWS SOC 2 Type II, AWS FedRAMP Moderate, AWS FedRAMP High, AWS ISO 27001; AWS Artifact: https://console.aws.amazon.com/artifact/)'
   uri          = input('c_10_1_evidence_uri', value: attestation_uri(:leveraged, 'aws-soc2-type2', ext: 'json'))

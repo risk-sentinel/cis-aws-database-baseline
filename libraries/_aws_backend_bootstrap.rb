@@ -22,9 +22,9 @@
 # this directory can inherit `AwsResourceBase` directly without any
 # explicit require of their own.
 #
-# Context: sparc-validate #24 (exec failure surfaced the bootstrap
-# requirement). Same verbatim file lives in sparc-aws-foundations; the
-# two copies are identical by design — profile-level isolation.
+# Context: an exec-time failure surfaced the bootstrap requirement. The same
+# verbatim file lives in the sibling AWS profiles; the two copies are identical
+# by design — profile-level isolation.
 
 vendor_patterns = [
   File.join(Dir.pwd, "vendor", "*", "libraries"),

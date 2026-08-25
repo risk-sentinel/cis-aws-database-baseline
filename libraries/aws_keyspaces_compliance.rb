@@ -10,7 +10,7 @@
 #      "ENABLED"`.
 #
 # Defensive `aws-sdk-keyspaces` require — NOT bundled in upstream
-# cinc-auditor 7.0.107. Use risksentinel/cinc-auditor extended image
+# cinc-auditor 7.0.107. Use an extended auditor image that bundles the gem
 # (your CI image-bake tracker) or controls fall back to connection_error skip.
 #
 # Memoization: the four §8 controls each instantiate this resource. Pre-

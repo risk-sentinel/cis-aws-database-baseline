@@ -8,7 +8,7 @@
 # §6.7 Automatic Backups — `snapshot_retention_limit > 0`.
 #
 # Defensive `aws-sdk-memorydb` require — NOT bundled in upstream
-# cinc-auditor 7.0.107. Use risksentinel/cinc-auditor extended image
+# cinc-auditor 7.0.107. Use an extended auditor image that bundles the gem
 # (your CI image-bake tracker) or controls fall back to attestation rationale.
 #
 # Per-region instantiation.

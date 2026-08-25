@@ -161,7 +161,7 @@ inputs:
       reference. Empty default cites a generic rationale; populate
       to surface the specific review document path.
 
-  # ---- document_attestation evidence-class bases (sparc-validate#154) ----
+  # ---- document_attestation evidence-class bases ----
   # Three evidence classes, each with its own base + a provider inferred from
   # the base's URI scheme. The helper (_attestation_helpers.rb) composes
   # attestation_uri(:class, 'name') -> "<base>/<name>.<ext>"; an UNSET base
@@ -195,7 +195,7 @@ inputs:
       Staleness window (days) for the leveraged-systems AWS evidence manifests
       consumed by the inherited-control refactor (annual AWS Artifact cadence).
 
-  # ---- per-control document_attestation overrides (sparc-validate#154) ----
+  # ---- per-control document_attestation overrides ----
   # Optional. When set, the URI overrides the class-resolved default for that
   # control. Empty -> resolves via the evidence class above, and SKIPs if that
   # base is also unset.
