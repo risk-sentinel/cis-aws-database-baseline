@@ -76,7 +76,28 @@ control 'C-4.2' do
     Note: Fine-grained access control is a powerful feature but can be complex to configure. Be sure to test your setup to ensure it works as expected thoroughly.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Constrain access to the caller's own items using a condition on the partition
+    key, so one tenant cannot read another's rows.
+
+    Attach a policy with `dynamodb:LeadingKeys` scoped to the caller's identity:
+
+        ```
+        {
+          \"Effect\": \"Allow\",
+          \"Action\": [\"dynamodb:GetItem\", \"dynamodb:Query\", \"dynamodb:PutItem\"],
+          \"Resource\": \"arn:aws:dynamodb:<region>:<account-id>:table/<table>\",
+          \"Condition\": {
+            \"ForAllValues:StringEquals\": {
+              \"dynamodb:LeadingKeys\": [\"${aws:userid}\"]
+            }
+          }
+        }
+        ```
+
+    1. Use `dynamodb:Attributes` to restrict which attributes are returned where
+       some columns are more sensitive than others.
+    2. Remember the condition applies to the table, not to a secondary index queried
+       directly - scope index ARNs explicitly too.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-3', 'AC-8 a']

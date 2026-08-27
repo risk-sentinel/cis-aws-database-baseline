@@ -3,10 +3,22 @@
 control 'C-6.2' do
   title 'Ensure Data at Rest and in Transit is Encrypted'
   desc  "
-    TODO: description missing in source XCCDF
+    Encrypt the cluster at rest with a customer-managed KMS key and keep TLS enabled
+    for client connections.
+
+    MemoryDB encrypts by default, so the control is about ownership rather than
+    presence: a customer-managed key means every decrypt is recorded in CloudTrail
+    and access can be revoked independently of the service. The key is fixed at
+    creation, so this is a decision made once and expensive to revisit.
   "
   desc  'rationale', "
-    TODO: description missing in source XCCDF
+    Encrypt the cluster at rest with a customer-managed KMS key and keep TLS enabled
+    for client connections.
+
+    MemoryDB encrypts by default, so the control is about ownership rather than
+    presence: a customer-managed key means every decrypt is recorded in CloudTrail
+    and access can be revoked independently of the service. The key is fixed at
+    creation, so this is a decision made once and expensive to revisit.
   "
   desc  'check', "
     1. Sign in to the AWS Management Console
@@ -41,7 +53,19 @@ control 'C-6.2' do
     - Verify that encryption at rest and in transit are enabled for the MemoryDB cluster.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    MemoryDB encrypts in transit by default and at rest with an AWS-owned key.
+    Strengthen both.
+
+        ```
+        aws memorydb create-cluster --cluster-name <cluster> --kms-key-id <kms-key-arn> --tls-enabled --acl-name <acl-name> --node-type <node-type> --subnet-group-name <subnet-group>
+        ```
+
+    1. Specify a customer-managed KMS key so decrypt is recorded in CloudTrail and
+       access can be revoked. The key is set at creation and cannot be changed in
+       place - migrating means creating a new cluster from a snapshot.
+    2. Leave TLS enabled and confirm clients verify the certificate rather than
+       disabling verification to make a connection work.
+    3. Confirm snapshots inherit the same key.
   "
   tag severity:              'medium'
   tag nist:                  ['SC-8', 'SC-28', 'AC-8 a']

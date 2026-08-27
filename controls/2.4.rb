@@ -52,7 +52,23 @@ control 'C-2.4' do
     - Click `Next: Review` and then `Add permissions`.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Give each consumer a role scoped to the cluster it uses, rather than a shared
+    policy granting broad `rds:*`.
+
+    1. Create an IAM role per application, trusted by that workload's compute
+       identity, and attach a policy naming the specific cluster resource ARNs.
+    2. For database sign-in, enable IAM database authentication and grant
+       `rds-db:connect` against a specific `dbuser/` resource rather than a
+       wildcard:
+
+        ```
+        aws rds modify-db-cluster --db-cluster-identifier <cluster-id> --enable-iam-database-authentication --apply-immediately
+        ```
+
+    3. Keep administrative permissions (`rds:Delete*`, `rds:Modify*`) in a separate
+       role that applications do not assume.
+    4. Review with IAM Access Analyzer for unused permissions, and remove what the
+       workload has not exercised.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-3', 'AC-8 a']

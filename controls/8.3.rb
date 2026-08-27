@@ -43,7 +43,17 @@ control 'C-8.3' do
     - Verify that encryption at rest and in transit are enabled for the Keyspace.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Tables are encrypted at rest by default with an AWS-owned key. Use a
+       customer-managed key where key use must be auditable and revocable:
+
+        ```
+        aws keyspaces update-table --keyspace-name <keyspace> --table-name <table> --encryption-specification type=CUSTOMER_MANAGED_KMS_KEY,kms_key_identifier=<kms-key-arn>
+        ```
+
+    2. Keyspaces requires TLS for all connections; confirm clients are configured to
+       verify the certificate using the Starfield CA bundle rather than disabling
+       verification.
+    3. Confirm the driver is not configured to fall back to a plaintext port.
   "
   tag severity:              'medium'
   tag nist:                  ['SC-8', 'SC-28', 'AC-8 a']

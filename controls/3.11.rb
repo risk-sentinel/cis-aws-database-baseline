@@ -55,7 +55,16 @@ control 'C-3.11' do
     - Maintain an up-to-date inventory of the security controls and configurations implemented for your RDS instances.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Review the configuration on a defined cycle rather than after an incident.
+
+    1. Re-check, at each review: public accessibility, security group rules,
+       encryption at rest and in transit, IAM authentication, backup retention,
+       engine version support status, and who holds the master credential.
+    2. Use AWS Config rules or Security Hub to detect drift continuously, so the
+       periodic review confirms a known-good state rather than discovering it.
+    3. Record the review date, who performed it, what changed, and the exceptions
+       accepted with their expiry - that record is the evidence for this control,
+       since the state it asserts is procedural.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

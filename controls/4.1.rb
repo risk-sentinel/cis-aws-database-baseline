@@ -50,7 +50,13 @@ control 'C-4.1' do
     - With these steps, you have attached an IAM policy that controls access to DynamoDB resources.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Grant access through IAM roles assumed by the workload, never through
+       long-lived user access keys, and never through the account root.
+    2. Scope each policy to the specific table and index ARNs, and to the actions
+       the workload performs. `dynamodb:*` on `*` is the common finding here.
+    3. Separate read paths from write paths into different roles where the
+       application allows it, so a compromised reader cannot mutate data.
+    4. Run IAM Access Analyzer and remove permissions the workload has not used.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-3', 'AC-8 a']

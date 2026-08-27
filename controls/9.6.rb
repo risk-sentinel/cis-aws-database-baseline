@@ -54,7 +54,14 @@ control 'C-9.6' do
     -Regularly review AWS documentation, security blogs, and other relevant resources to enhance your understanding and implementation of security practices.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Review on a defined cycle, and record it.
+
+    1. Re-check at each review: subnet placement and security group rules, KMS key,
+       `neptune_enforce_ssl`, IAM database authentication, audit logging, backup
+       retention, and engine version.
+    2. Use AWS Config or Security Hub to catch drift between reviews.
+    3. Record the date, reviewer, changes and accepted exceptions; that record is the
+       evidence for this control.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

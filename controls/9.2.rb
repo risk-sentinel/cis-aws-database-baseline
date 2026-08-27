@@ -33,7 +33,15 @@ control 'C-9.2' do
     - Verify that encryption at rest is enabled for the Neptune cluster.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Encryption at rest is set at creation and cannot be enabled in place.
+
+        ```
+        aws neptune copy-db-cluster-snapshot --source-db-cluster-snapshot-identifier <snapshot-id> --target-db-cluster-snapshot-identifier <snapshot-id>-enc --kms-key-id <kms-key-arn>
+        aws neptune restore-db-cluster-from-snapshot --db-cluster-identifier <new-cluster-id> --snapshot-identifier <snapshot-id>-enc --engine neptune
+        ```
+
+    1. Use a customer-managed KMS key so decrypt is recorded and access revocable.
+    2. Delete the unencrypted cluster and its snapshots after cutover.
   "
   tag severity:              'medium'
   tag nist:                  ['SC-28', 'AC-8 a']

@@ -35,7 +35,21 @@ control 'C-4.4' do
     - Verify that your code is configured to connect to DynamoDB using the appropriate SSL/TLS endpoint.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    DynamoDB endpoints are HTTPS-only, so remediation is about proving no path
+    bypasses TLS rather than enabling it.
+
+    1. Deny non-TLS requests explicitly in the IAM policy so the guarantee is
+       enforced rather than assumed:
+
+        ```
+        \"Condition\": { \"Bool\": { \"aws:SecureTransport\": \"false\" } }
+        ```
+
+       with `Effect: Deny`.
+    2. Confirm clients use a current AWS SDK and are not pinned to an old TLS
+       version or configured to skip certificate verification.
+    3. Where a VPC endpoint is in use, apply the same condition in the endpoint
+       policy.
   "
   tag severity:              'medium'
   tag nist:                  ['SC-8', 'AC-8 a']

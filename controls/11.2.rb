@@ -45,7 +45,15 @@ control 'C-11.2' do
     - Update your network security measures as needed to address emerging threats or changes in your security requirements.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Reach QLDB over an interface VPC endpoint rather than the public endpoint:
+
+        ```
+        aws ec2 create-vpc-endpoint --vpc-id <vpc-id> --vpc-endpoint-type Interface --service-name com.amazonaws.<region>.qldb.session --subnet-ids <subnet-id> --security-group-ids <sg-id>
+        ```
+
+    2. Attach a security group permitting HTTPS from the client security group only.
+    3. Apply an endpoint policy naming the ledger, and add an `aws:SourceVpce`
+       condition to the IAM policy so access is only possible from inside the VPC.
   "
   tag severity:              'medium'
   tag nist:                  ['SA-8']

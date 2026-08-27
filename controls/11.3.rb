@@ -42,7 +42,16 @@ control 'C-11.3' do
     - Consider backing up the KMS key used for encryption to prevent data loss in case of a key compromise or accidental deletion.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    QLDB encrypts at rest by default. Move to a customer-managed key so key use is
+    recorded and revocable:
+
+        ```
+        aws qldb update-ledger --name <ledger-name> --kms-key <kms-key-arn>
+        ```
+
+    1. Grant the key only to the roles that use the ledger.
+    2. Confirm any journal export to S3 lands in a bucket with its own default
+       encryption - the export leaves the ledger's protection behind.
   "
   tag severity:              'medium'
   tag nist:                  ['SC-28', 'AC-8 a']

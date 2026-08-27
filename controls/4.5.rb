@@ -42,7 +42,19 @@ control 'C-4.5' do
     - Ensure that the access to DynamoDB is successful and that data can be retrieved or modified.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Keep DynamoDB traffic on the AWS network rather than routing it through a NAT
+    gateway to the public endpoint.
+
+        ```
+        aws ec2 create-vpc-endpoint --vpc-id <vpc-id> --service-name com.amazonaws.<region>.dynamodb --route-table-ids <rtb-id>
+        ```
+
+    1. DynamoDB uses a gateway endpoint, which is attached to route tables rather
+       than to subnets, and costs nothing.
+    2. Apply an endpoint policy naming the tables reachable through it, so the
+       endpoint does not become a broad path to every table in the account.
+    3. Add a `aws:SourceVpce` condition on the table's resource policy where access
+       should be possible only from inside the VPC.
   "
   tag severity:              'medium'
   tag nist:                  ['SA-8']

@@ -31,7 +31,18 @@ control 'C-7.9' do
     - Specify the number of days for which automated backups should be retained.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+        ```
+        aws docdb modify-db-cluster --db-cluster-identifier <cluster-id> --backup-retention-period 30 --apply-immediately
+        ```
+
+    1. Set retention to meet the stated recovery point objective; automated backups
+       give point-in-time restore within that window.
+    2. Copy snapshots to a second Region or account for anything whose loss would be
+       material.
+    3. Enable deletion protection so the cluster cannot be removed by an accidental
+       call.
+    4. Test a restore and record how long it took. Restore time is the number that
+       matters during an incident, and it is rarely what people assume.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

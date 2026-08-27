@@ -49,7 +49,15 @@ control 'C-9.1' do
     - Ensure that the network security settings allow the necessary traffic and deny unauthorized access.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Place the cluster in a DB subnet group of private subnets across at least two
+       Availability Zones.
+    2. Restrict the cluster security group to TCP 8182 from the application security
+       group only.
+    3. Neptune has no public accessibility option - it is always VPC-only - so the
+       exposure risk is a permissive security group or a peered network, not a public
+       endpoint. Check both.
+    4. Use an interface VPC endpoint for the management API so control-plane calls do
+       not need internet egress.
   "
   tag severity:              'medium'
   tag nist:                  ['SA-8']

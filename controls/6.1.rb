@@ -3,10 +3,22 @@
 control 'C-6.1' do
   title 'Ensure Network Security is Enabled'
   desc  "
-    TODO: description missing in source XCCDF
+    Place the cluster in private subnets and restrict its security group to the
+    cluster port from the application security group only.
+
+    MemoryDB is a durable data store rather than a disposable cache, so exposure has
+    the same consequence as exposing a database. Anything able to reach the port is
+    positioned to read the data, which is why network placement is treated as a
+    control in its own right rather than left to the default VPC.
   "
   desc  'rationale', "
-    TODO: description missing in source XCCDF
+    Place the cluster in private subnets and restrict its security group to the
+    cluster port from the application security group only.
+
+    MemoryDB is a durable data store rather than a disposable cache, so exposure has
+    the same consequence as exposing a database. Anything able to reach the port is
+    positioned to read the data, which is why network placement is treated as a
+    control in its own right rather than left to the default VPC.
   "
   desc  'check', "
     1. Create or Select a Virtual Private Cloud (VPC)
@@ -47,7 +59,13 @@ control 'C-6.1' do
     - Verify that the network security settings allow the necessary traffic and deny unauthorized access.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Place the cluster in a subnet group made of private subnets across at least
+       two Availability Zones.
+    2. Restrict the cluster security group to the MemoryDB port from the application
+       security group only, and remove any broad CIDR rule.
+    3. Confirm the subnets have no route to an internet gateway.
+    4. MemoryDB is a durable data store rather than a cache - treat its network
+       exposure with the same seriousness as a database, not a disposable tier.
   "
   tag severity:              'medium'
   tag nist:                  ['SA-8']

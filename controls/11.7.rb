@@ -59,7 +59,21 @@ control 'C-11.7' do
     - Set up appropriate alarms and notifications to ensure timely identification of any backup or recovery issues.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Enable deletion protection so the ledger cannot be removed by an accidental
+       call:
+
+        ```
+        aws qldb update-ledger --name <ledger-name> --deletion-protection
+        ```
+
+    2. Export the journal to S3 on a schedule, into a bucket with versioning, default
+       encryption and a lifecycle or Object Lock policy matching your retention
+       obligation. QLDB has no snapshot or point-in-time restore - the journal export
+       is the backup.
+    3. Verify an export can be read back and its digest verified. An export that has
+       never been validated is not a recovery capability.
+    4. Where the ledger is being migrated off QLDB, the export is also the migration
+       artefact - test it early.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

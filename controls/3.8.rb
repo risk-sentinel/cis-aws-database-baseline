@@ -3,10 +3,20 @@
 control 'C-3.8' do
   title 'Ensure to Regularly Patch Systems'
   desc  "
-    TODO: description missing in source XCCDF
+    Keep the database engine current by leaving automatic minor version upgrades
+    enabled and planning major version upgrades before support ends.
+
+    Minor versions carry the engine's security fixes. Disabling automatic upgrades
+    defers them indefinitely, and the deferral is invisible - the instance keeps
+    running and reports healthy while accumulating known vulnerabilities.
   "
   desc  'rationale', "
-    TODO: description missing in source XCCDF
+    Keep the database engine current by leaving automatic minor version upgrades
+    enabled and planning major version upgrades before support ends.
+
+    Minor versions carry the engine's security fixes. Disabling automatic upgrades
+    defers them indefinitely, and the deferral is invisible - the instance keeps
+    running and reports healthy while accumulating known vulnerabilities.
   "
   desc  'check', "
     1. Stay Informed about Database Engine Updates
@@ -53,7 +63,22 @@ control 'C-3.8' do
     - Document the update and patching process, including the applied versions, dates, and any issues encountered.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+        ```
+        aws rds modify-db-instance --db-instance-identifier <instance-id> --auto-minor-version-upgrade --preferred-maintenance-window <ddd:hh24:mi-ddd:hh24:mi> --apply-immediately
+        ```
+
+    1. Leave automatic minor version upgrades on. Minor versions carry the security
+       fixes, and disabling this defers them indefinitely.
+    2. Set a maintenance window in a low-traffic period, and confirm the application
+       tolerates the brief failover a patch causes.
+    3. Major version upgrades are not automatic. Track end of standard support for
+       the running version and plan the upgrade before it arrives, rather than being
+       moved to paid extended support by default.
+    4. Review pending maintenance actions periodically:
+
+        ```
+        aws rds describe-pending-maintenance-actions
+        ```
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

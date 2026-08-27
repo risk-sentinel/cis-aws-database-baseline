@@ -59,7 +59,21 @@ control 'C-3.3' do
     - Configure the database instance with the desired network and security settings within the chosen VPC.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Place the database in private subnets with no route to an internet gateway.
+
+    1. Create a DB subnet group spanning private subnets in at least two
+       Availability Zones.
+    2. Confirm the instance is not publicly accessible:
+
+        ```
+        aws rds modify-db-instance --db-instance-identifier <instance-id> --no-publicly-accessible --apply-immediately
+        ```
+
+    3. Verify the route tables for those subnets have no `0.0.0.0/0` route to an
+       internet gateway. `PubliclyAccessible=false` on a subnet that routes to an
+       IGW is a weaker position than it appears.
+    4. Reach AWS APIs through interface endpoints rather than a NAT gateway where
+       the workload allows it.
   "
   tag severity:              'medium'
   tag nist:                  ['SA-8']

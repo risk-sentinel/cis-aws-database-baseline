@@ -50,7 +50,16 @@ control 'C-10.8' do
     Adjust your monitoring setup, such as adding or modifying metrics, updating alarm thresholds, or incorporating new log filters.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Alarm on ingestion errors and rejected records. Silently rejected records are
+       the characteristic Timestream failure - the writer reports success for the
+       batch while individual records are dropped.
+    2. Alarm on query latency and on system errors, and on memory-store to
+       magnetic-store transfer failures.
+    3. Deliver to an SNS topic with a confirmed subscription, and verify the path end
+       to end.
+    4. Set memory-store and magnetic-store retention deliberately; data aged out of
+       the memory store before it is queried is a data-loss condition that no alarm
+       will report.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']

@@ -40,7 +40,17 @@ control 'C-7.4' do
     - Keep your client applications current to ensure they support the latest encryption protocols.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    DocumentDB enables TLS by default through the `tls` cluster parameter. Keep it
+    on and verify clients honour it.
+
+        ```
+        aws docdb modify-db-cluster-parameter-group --db-cluster-parameter-group-name <pg-name> --parameters 'ParameterName=tls,ParameterValue=enabled,ApplyMethod=pending-reboot'
+        ```
+
+    1. Disabling `tls` is a deliberate act and should be treated as a finding.
+    2. Distribute the Amazon RDS CA bundle and configure drivers to verify the
+       server certificate, rather than passing an option that skips validation.
+    3. Confirm no connection string in the application carries `tlsAllowInvalidCertificates`.
   "
   tag severity:              'medium'
   tag nist:                  ['SC-8', 'AC-8 a']

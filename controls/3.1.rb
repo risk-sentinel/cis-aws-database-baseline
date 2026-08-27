@@ -3,10 +3,22 @@
 control 'C-3.1' do
   title 'Ensure to Choose the Appropriate Database Engine'
   desc  "
-    TODO: description missing in source XCCDF
+    Select a database engine and version that is still under standard support and
+    suited to the workload, and record the reasoning.
+
+    An engine past end of standard support stops receiving security patches, and
+    moves to paid extended support rather than simply continuing as before. Treating
+    the choice as a one-time decision is how a fleet ends up running versions nobody
+    noticed going end of life.
   "
   desc  'rationale', "
-    TODO: description missing in source XCCDF
+    Select a database engine and version that is still under standard support and
+    suited to the workload, and record the reasoning.
+
+    An engine past end of standard support stops receiving security patches, and
+    moves to paid extended support rather than simply continuing as before. Treating
+    the choice as a one-time decision is how a fleet ends up running versions nobody
+    noticed going end of life.
   "
   desc  'check', "
     1. Evaluate Your Requirements
@@ -44,7 +56,20 @@ control 'C-3.1' do
     - Consider long-term considerations such as potential future growth, flexibility, and ease of migration to other database engines if needed.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Choose an engine and version that is still supported, and record why.
+
+    1. Confirm the engine version is not past end of standard support. Extended
+       support keeps an unsupported version running at additional cost; it is a
+       migration deadline, not a resting state.
+
+        ```
+        aws rds describe-db-engine-versions --engine <engine> --query 'DBEngineVersions[].[EngineVersion,Status]' --output table
+        ```
+
+    2. Where the workload allows it, prefer Aurora over a like-for-like RDS engine
+       for its faster failover and storage-level replication.
+    3. Record the engine decision and its review date, since this control is a
+       design choice rather than a setting to toggle.
   "
   tag severity:              'medium'
   tag nist:                  ['MA-3 a']

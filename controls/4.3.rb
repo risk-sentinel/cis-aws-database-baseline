@@ -39,7 +39,18 @@ control 'C-4.3' do
     3. Ensure you have the necessary permissions in AWS KMS when choosing an AWS-managed CMK or a customer-managed CMK.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Tables are encrypted at rest by default with an AWS-owned key. Move to a
+    customer-managed key where key access must be auditable and revocable:
+
+        ```
+        aws dynamodb update-table --table-name <table> --sse-specification Enabled=true,SSEType=KMS,KMSMasterKeyId=<kms-key-arn>
+        ```
+
+    1. A customer-managed key means CloudTrail records every decrypt, and revoking
+       the key grant makes the data inaccessible - which is what makes it a control
+       rather than a checkbox.
+    2. Apply the same key choice to backups and to any global table replica; a
+       replica in another Region uses a key in that Region.
   "
   tag severity:              'medium'
   tag nist:                  ['SC-28', 'AC-8 a']

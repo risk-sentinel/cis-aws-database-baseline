@@ -48,7 +48,14 @@ control 'C-10.4' do
     Monitor IAM activity logs and AWS CloudTrail to identify unauthorized access attempts or unusual activities.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Grant access through IAM roles assumed by the workload rather than long-lived
+       user keys.
+    2. Scope policies to the specific database and table ARNs, and separate the
+       writer role (`WriteRecords`) from the reader role (`Select`,
+       `DescribeEndpoints`).
+    3. Keep schema and lifecycle actions (`CreateTable`, `UpdateTable`,
+       `DeleteDatabase`) in an administrative role that no application assumes.
+    4. Run IAM Access Analyzer and remove permissions the workload has not exercised.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-3', 'AC-8 a']

@@ -36,7 +36,16 @@ control 'C-9.3' do
     - Verify that all data transmitted between your client applications and the Neptune cluster is encrypted in transit.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Require HTTPS at the cluster rather than relying on clients to choose it.
+
+        ```
+        aws neptune modify-db-cluster-parameter-group --db-cluster-parameter-group-name <pg-name> --parameters 'ParameterName=neptune_enforce_ssl,ParameterValue=1,ApplyMethod=pending-reboot'
+        ```
+
+    1. With `neptune_enforce_ssl` set, plaintext connections are refused, so the
+       guarantee does not depend on client configuration.
+    2. Reboot for the parameter to take effect, and confirm clients connect over
+       `https://` and verify the certificate.
   "
   tag severity:              'medium'
   tag nist:                  ['SC-8', 'AC-8 a']

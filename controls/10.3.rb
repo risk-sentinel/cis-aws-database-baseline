@@ -47,7 +47,14 @@ control 'C-10.3' do
     Apply any necessary updates or patches to client applications or tools to maintain strong encryption in transit.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    All Timestream endpoints are HTTPS, so remediation is proving no path bypasses
+    TLS rather than enabling it.
+
+    1. Add an explicit deny in the IAM policy for requests where
+       `aws:SecureTransport` is false, so the guarantee is enforced.
+    2. Confirm clients use a current AWS SDK and have not disabled certificate
+       verification.
+    3. Where a VPC endpoint is used, apply the same condition in the endpoint policy.
   "
   tag severity:              'medium'
   tag nist:                  ['SC-8', 'AC-8 a']

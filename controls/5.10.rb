@@ -56,7 +56,15 @@ control 'C-5.10' do
     - Regularly review and apply security patches, updates, and recommended configuration changes for Amazon Keyspaces.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Review on a defined cycle, and record it.
+
+    1. Confirm at each review that encryption in transit and at rest are still on,
+       the user group or AUTH configuration is unchanged, and no security group rule
+       has been widened.
+    2. Re-check that snapshots exist, are retained for the agreed period, and are
+       encrypted.
+    3. Record the date, reviewer, findings and accepted exceptions. This control is
+       satisfied by that record, not by a live setting.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

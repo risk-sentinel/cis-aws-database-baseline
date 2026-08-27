@@ -47,7 +47,18 @@ control 'C-8.2' do
     - Verify that the network security settings allow the necessary traffic and deny unauthorized access.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Keyspaces is a regional endpoint service. Reach it privately rather than over
+    the internet.
+
+        ```
+        aws ec2 create-vpc-endpoint --vpc-id <vpc-id> --vpc-endpoint-type Interface --service-name com.amazonaws.<region>.cassandra --subnet-ids <subnet-id> --security-group-ids <sg-id>
+        ```
+
+    1. Attach a security group to the endpoint permitting TCP 9142 from the client
+       security group only.
+    2. Apply an endpoint policy naming the keyspaces reachable through it.
+    3. Add an `aws:SourceVpce` condition to the IAM policy where access should only
+       be possible from inside the VPC.
   "
   tag severity:              'medium'
   tag nist:                  ['SA-8']

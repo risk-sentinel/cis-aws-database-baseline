@@ -60,7 +60,18 @@ control 'C-11.6' do
     - Stay informed about AWS security best practices and new features.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Enable CloudTrail management events for ledger lifecycle changes, and protect
+       the trail with log file validation.
+    2. Stream the journal to Kinesis so the immutable record of transactions is
+       available for monitoring outside the ledger:
+
+        ```
+        aws qldb stream-journal-to-kinesis --ledger-name <ledger-name> --role-arn <role-arn> --kinesis-configuration StreamArn=<stream-arn> --inclusive-start-time <timestamp> --stream-name <stream-name>
+        ```
+
+    3. Alarm on `DeleteLedger`, `UpdateLedger` and changes to the KMS key.
+    4. The journal is the audit record - verify its digest periodically rather than
+       assuming immutability.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']

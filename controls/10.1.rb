@@ -49,7 +49,21 @@ control 'C-10.1' do
     Follow the principle of least privilege, granting access only to the required IPs or networks.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Constrain what may write, and how it reaches the service.
+
+    1. Give each producer an IAM role scoped to the specific database and table ARNs
+       with `timestream:WriteRecords` only - no read, no schema change.
+    2. Reach Timestream over an interface VPC endpoint so ingestion does not traverse
+       the internet:
+
+        ```
+        aws ec2 create-vpc-endpoint --vpc-id <vpc-id> --vpc-endpoint-type Interface --service-name com.amazonaws.<region>.timestream-ingest-cells --subnet-ids <subnet-id> --security-group-ids <sg-id>
+        ```
+
+    3. Deny requests where `aws:SecureTransport` is false, so TLS is enforced rather
+       than assumed.
+    4. Where data arrives via Kinesis or IoT Core, apply the same scoping to that
+       pipeline's role - the weakest identity in the chain sets the exposure.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

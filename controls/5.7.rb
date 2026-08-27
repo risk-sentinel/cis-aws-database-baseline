@@ -63,7 +63,15 @@ control 'C-5.7' do
     - Take necessary actions based on security recommendations, such as applying patches or configuration changes.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Review on a defined cycle, and record it.
+
+    1. Re-check at each review: subnet placement, security group rules, encryption
+       in transit and at rest, AUTH or RBAC configuration, engine version support,
+       automatic upgrade setting, and backup retention.
+    2. Use AWS Config or Security Hub to detect drift between reviews, so the review
+       confirms a known state rather than discovering it.
+    3. Record the date, the reviewer, what changed, and any accepted exception with
+       its expiry. That record is the evidence for this control.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

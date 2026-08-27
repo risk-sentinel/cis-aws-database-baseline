@@ -51,7 +51,16 @@ control 'C-7.7' do
     - Repeat the update process regularly to ensure your DocumentDB cluster remains up to date with the latest security enhancements and bug fixes.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+        ```
+        aws docdb modify-db-cluster --db-cluster-identifier <cluster-id> --preferred-maintenance-window <ddd:hh24:mi-ddd:hh24:mi> --apply-immediately
+        ```
+
+    1. Leave automatic minor version upgrades enabled on the instances so engine
+       security fixes are applied.
+    2. Set the maintenance window to a low-traffic period, and confirm the
+       application reconnects after the failover a patch causes.
+    3. Check pending maintenance actions periodically, and track the engine version
+       against its support schedule so a major upgrade is planned rather than forced.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

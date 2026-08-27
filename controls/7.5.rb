@@ -50,7 +50,17 @@ control 'C-7.5' do
     - Follow the AWS documentation to set up IAM authentication for DocumentDB, if applicable.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Create a database user per application with only the roles it needs, rather
+       than sharing the cluster's master user.
+    2. Hold credentials in Secrets Manager with rotation enabled:
+
+        ```
+        aws secretsmanager rotate-secret --secret-id <secret-arn> --rotation-lambda-arn <lambda-arn> --rotation-rules AutomaticallyAfterDays=30
+        ```
+
+    3. Use built-in roles (`read`, `readWrite`) scoped to a specific database rather
+       than `root` or `dbAdminAnyDatabase`.
+    4. Keep the master credential for break-glass use, and alarm on its retrieval.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-3', 'AC-8 a']
