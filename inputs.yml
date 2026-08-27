@@ -6,8 +6,7 @@
 # or individually via --input name=value
 #
 # All inputs have sensible defaults — see inspec.yml for the catalogue
-# and README.md "Portability" for how each input composes. A worked
-# overlay sits at `examples/sparc.inputs.yml`.
+# and README.md "Portability" for how each input composes.
 
 # ----- AWS partition -----
 # 'aws' for Commercial (default), 'aws-us-gov' for GovCloud non-DoD.

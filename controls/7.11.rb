@@ -92,7 +92,7 @@ control 'C-7.11' do
   end
 
   # Converted from Skip-with-rationale to Pass-with-evidence via document_attestation
-  # (sparc-validate#154). The bi-annual security-assessment / pen-test record is a
+  # The bi-annual security-assessment / pen-test record is a
   # `boundary`-class doc (the boundary's own assessment). The URI defaults via
   # attestation_uri(:boundary, …), which resolves against boundary_docs_base and
   # returns '' when unset — so an unconfigured consumer SKIPs (preserving the
