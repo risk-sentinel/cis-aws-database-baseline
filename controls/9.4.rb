@@ -42,7 +42,20 @@ control 'C-9.4' do
     - Follow the principle of least privilege and ensure that users or services have only the necessary permissions to perform their required actions on the Neptune cluster.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Enable IAM database authentication so requests are signed with SigV4 and tied
+       to an IAM principal:
+
+        ```
+        aws neptune modify-db-cluster --db-cluster-identifier <cluster-id> --enable-iam-database-authentication --apply-immediately
+        ```
+
+    2. Without it, anything that can reach port 8182 can query the graph - network
+       position becomes the only control.
+    3. Scope IAM policies to the cluster resource ARN and to the specific actions
+       (`neptune-db:ReadDataViaQuery`, `neptune-db:WriteDataViaQuery`), separating
+       read and write roles.
+    4. Confirm clients sign requests; an unsigned request fails closed once IAM auth
+       is on, so stage the change.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-3', 'AC-8 a']

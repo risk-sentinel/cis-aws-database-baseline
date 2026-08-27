@@ -56,7 +56,14 @@ control 'C-6.5' do
     - Regularly review and apply security patches, updates, and recommended configuration changes for Amazon MemoryDB.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Review on a defined cycle, and record it.
+
+    1. Confirm at each review: subnet placement and security group rules, the KMS
+       key in use, TLS still enabled, ACL membership and each user's access string,
+       engine version, and snapshot retention.
+    2. Pay particular attention to ACL drift - users accumulate, and an access string
+       widened for a one-off migration tends to stay widened.
+    3. Record date, reviewer, changes and accepted exceptions as the evidence.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

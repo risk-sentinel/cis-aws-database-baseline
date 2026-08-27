@@ -48,7 +48,14 @@ control 'C-10.6' do
     Respond promptly to any identified security incidents or anomalies.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Enable CloudTrail management events to record database and table changes.
+    2. Timestream does not emit a per-query audit log, so pair CloudTrail with
+       CloudWatch metrics for query and ingestion volume, and treat an unexplained
+       change in read volume as the signal worth alerting on.
+    3. Protect the trail with log file validation, set retention on the log group,
+       and confirm events are arriving.
+    4. Alarm specifically on `DeleteTable`, `DeleteDatabase` and changes to the KMS
+       key.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']

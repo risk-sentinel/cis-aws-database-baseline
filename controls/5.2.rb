@@ -51,7 +51,14 @@ control 'C-5.2' do
     - Verify that the network security settings allow the necessary traffic and deny unauthorized access.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Confirm the cluster is in a cache subnet group made of private subnets across
+       at least two Availability Zones.
+    2. Give the cluster its own security group rather than reusing the application's,
+       and allow only the cache port from the application security group.
+    3. Verify no NACL or route permits inbound traffic from outside the VPC to the
+       cache subnets.
+    4. Where clients are in another VPC, use peering or Transit Gateway with a scoped
+       route rather than making the cluster publicly reachable.
   "
   tag severity:              'medium'
   tag nist:                  ['SA-8']

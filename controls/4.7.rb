@@ -56,7 +56,19 @@ control 'C-4.7' do
     - Click `Save` to create the AWS Config rule.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Enable CloudTrail data events for the table. Management events alone record
+       that the table was created, not that data was read from it:
+
+        ```
+        aws cloudtrail put-event-selectors --trail-name <trail> --advanced-event-selectors file://selectors.json
+        ```
+
+    2. Enable contributor insights to identify the most accessed keys, which is what
+       surfaces a hot partition or an unexpected access pattern.
+    3. Alarm on throttled requests, system errors, and unusual consumed capacity,
+       and deliver to a confirmed SNS subscription.
+    4. Set a retention period on the trail's log group and protect the trail with
+       log file validation.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']

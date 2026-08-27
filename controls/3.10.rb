@@ -55,7 +55,17 @@ control 'C-3.10' do
     - Click `Restore` or \"Create\" to initiate the point-in-time recovery process.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+        ```
+        aws rds modify-db-instance --db-instance-identifier <instance-id> --backup-retention-period 30 --preferred-backup-window <hh24:mi-hh24:mi> --apply-immediately
+        ```
+
+    1. A retention period of 0 disables automated backups and point-in-time
+       recovery entirely. Set it to meet your stated recovery point objective.
+    2. Copy snapshots to a second Region or account for anything whose loss would be
+       material, so an account-level event does not take the backups too.
+    3. Enable deletion protection, and confirm final snapshots are taken on delete.
+    4. Test a restore. An untested backup is an assumption, and restore time is the
+       number that matters during an incident.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

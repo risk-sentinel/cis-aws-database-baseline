@@ -51,7 +51,15 @@ control 'C-5.9' do
     - Establish appropriate log monitoring and alerting mechanisms to proactively identify and respond to potential security incidents or operational anomalies.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+        ```
+        aws elasticache modify-replication-group --replication-group-id <group-id> --log-delivery-configurations '[{\"LogType\":\"slow-log\",\"DestinationType\":\"cloudwatch-logs\",\"DestinationDetails\":{\"CloudWatchLogsDetails\":{\"LogGroup\":\"<log-group>\"}},\"LogFormat\":\"json\",\"Enabled\":true},{\"LogType\":\"engine-log\",\"DestinationType\":\"cloudwatch-logs\",\"DestinationDetails\":{\"CloudWatchLogsDetails\":{\"LogGroup\":\"<log-group>\"}},\"LogFormat\":\"json\",\"Enabled\":true}]' --apply-immediately
+        ```
+
+    1. Enable both slow-log and engine-log delivery to CloudWatch Logs.
+    2. ElastiCache does not produce a per-command audit trail, so pair the engine
+       logs with CloudTrail management events for configuration changes, and treat
+       the combination as the audit record.
+    3. Set a retention period on the log groups and confirm records are arriving.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']

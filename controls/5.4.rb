@@ -37,7 +37,18 @@ control 'C-5.4' do
     - Verify that the \"Auto minor version upgrade\" setting is now enabled for the ElastiCache cluster.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+        ```
+        aws elasticache modify-replication-group --replication-group-id <group-id> --auto-minor-version-upgrade --preferred-maintenance-window <ddd:hh24:mi-ddd:hh24:mi> --apply-immediately
+        ```
+
+    1. Leave automatic minor version upgrades enabled so engine security fixes are
+       picked up.
+    2. Set a maintenance window in a low-traffic period and confirm the application
+       reconnects cleanly after a node replacement.
+    3. Engine major versions are not upgraded automatically. Track the running
+       version against the deprecation schedule and plan the upgrade rather than
+       being forced into it.
+    4. Subscribe to ElastiCache events via SNS so required actions are seen.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

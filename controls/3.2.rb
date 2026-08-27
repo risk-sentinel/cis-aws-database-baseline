@@ -46,7 +46,20 @@ control 'C-3.2' do
     - Ensure that the database failover and automatic maintenance operations work as expected.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Deploy for the availability the workload actually requires.
+
+        ```
+        aws rds modify-db-instance --db-instance-identifier <instance-id> --multi-az --apply-immediately
+        ```
+
+    1. Enable Multi-AZ for anything production. A single-AZ instance loses the
+       database for the duration of an AZ event.
+    2. For Aurora, place at least one reader in a second Availability Zone and
+       confirm the failover priority ordering is what you intend.
+    3. Enable deletion protection so an accidental delete call cannot remove the
+       cluster.
+    4. Test failover rather than assuming it: `aws rds failover-db-cluster` during a
+       maintenance window tells you the application reconnects.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

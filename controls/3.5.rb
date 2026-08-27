@@ -38,7 +38,21 @@ control 'C-3.5' do
     - Confirm that the data is stored in an encrypted format.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Encryption at rest is set at creation and cannot be enabled in place, so
+    remediation means creating an encrypted copy.
+
+    1. Snapshot the unencrypted instance, copy the snapshot with a KMS key, and
+       restore from the encrypted copy:
+
+        ```
+        aws rds copy-db-snapshot --source-db-snapshot-identifier <snapshot-id> --target-db-snapshot-identifier <snapshot-id>-enc --kms-key-id <kms-key-arn>
+        aws rds restore-db-instance-from-db-snapshot --db-instance-identifier <new-instance-id> --db-snapshot-identifier <snapshot-id>-enc
+        ```
+
+    2. Use a customer-managed key so access can be revoked and rotation audited
+       independently of RDS.
+    3. Cut the application over, then delete the unencrypted instance and its
+       snapshots - the old snapshots remain unencrypted and still contain the data.
   "
   tag severity:              'medium'
   tag nist:                  ['SC-28', 'AC-8 a']

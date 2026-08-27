@@ -49,7 +49,15 @@ control 'C-9.5' do
     - Set up appropriate notifications or alerts to proactively respond to critical log events.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+        ```
+        aws neptune modify-db-cluster --db-cluster-identifier <cluster-id> --cloudwatch-logs-export-configuration '{\"EnableLogTypes\":[\"audit\"]}' --apply-immediately
+        ```
+
+    1. Set the `neptune_enable_audit_log` cluster parameter as well - the export
+       carries nothing if auditing is off at the engine.
+    2. Auditing records the queries issued, which is what distinguishes a legitimate
+       traversal from data exfiltration by query.
+    3. Set retention on the log group and confirm records arrive.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']

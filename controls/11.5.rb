@@ -54,7 +54,13 @@ control 'C-11.5' do
     - Stay updated with AWS security best practices and IAM and access control recommendations.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Use IAM roles assumed by the workload; QLDB has no database-local user
+       directory, so IAM is the entire authentication and authorisation story.
+    2. Scope policies to the ledger ARN, and where the driver supports it, to the
+       specific table resources for `qldb:PartiQL*` actions.
+    3. Separate the role that writes transactions from the role that reads the
+       journal, and keep export and administrative actions apart from both.
+    4. Review with IAM Access Analyzer and remove unused permissions.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-3', 'AC-8 a']

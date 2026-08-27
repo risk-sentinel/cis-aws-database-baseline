@@ -31,7 +31,18 @@ control 'C-8.1' do
     - Utilize other AWS resources such as whitepapers, blogs, and security-related documentation further to enhance your understanding of Amazon Keyspaces security features.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Grant access with IAM policies scoped to the specific keyspace and table
+       ARNs, not `cassandra:*` on `*`.
+    2. Use IAM roles with the SigV4 authentication plugin rather than
+       service-specific credentials. Service-specific credentials are long-lived
+       passwords and should be reserved for clients that cannot use SigV4.
+    3. Where they are unavoidable, hold them in Secrets Manager, rotate them, and
+       inventory which client holds which.
+    4. Enable point-in-time recovery on each table so a bad write is recoverable:
+
+        ```
+        aws keyspaces update-table --keyspace-name <keyspace> --table-name <table> --point-in-time-recovery status=ENABLED
+        ```
   "
   tag severity:              'medium'
   tag nist:                  ['AC-3', 'AC-8 a']

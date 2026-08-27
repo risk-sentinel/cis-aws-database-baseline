@@ -53,7 +53,15 @@ control 'C-7.6' do
     - Review audit logs regularly to identify potential security threats, compliance violations, or unauthorized access attempts.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+        ```
+        aws docdb modify-db-cluster --db-cluster-identifier <cluster-id> --cloudwatch-logs-export-configuration '{\"EnableLogTypes\":[\"audit\",\"profiler\"]}' --apply-immediately
+        ```
+
+    1. Enable the `audit_logs` cluster parameter as well - exporting alone produces
+       nothing if auditing is off at the engine.
+    2. Choose the event categories deliberately; auditing every read on a busy
+       cluster produces volume that obscures rather than informs.
+    3. Set retention on the log group and confirm records arrive.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']

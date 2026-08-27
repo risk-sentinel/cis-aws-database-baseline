@@ -47,7 +47,18 @@ control 'C-7.3' do
     - Ensure that the encryption remains enabled and that no unauthorized modifications are made.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Encryption at rest is set at cluster creation and cannot be enabled in place.
+
+    1. Snapshot the cluster, copy the snapshot with a KMS key, and restore:
+
+        ```
+        aws docdb copy-db-cluster-snapshot --source-db-cluster-snapshot-identifier <snapshot-id> --target-db-cluster-snapshot-identifier <snapshot-id>-enc --kms-key-id <kms-key-arn>
+        aws docdb restore-db-cluster-from-snapshot --db-cluster-identifier <new-cluster-id> --snapshot-identifier <snapshot-id>-enc --engine docdb
+        ```
+
+    2. Use a customer-managed key so key use is recorded and revocable.
+    3. After cutover, delete the unencrypted cluster and its snapshots - they still
+       hold the data.
   "
   tag severity:              'medium'
   tag nist:                  ['SC-28', 'AC-8 a']

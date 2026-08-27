@@ -52,7 +52,20 @@ control 'C-3.7' do
     - Remove or disable database users when they are no longer needed.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Enable IAM database authentication so sign-in uses a short-lived token tied to
+       an IAM principal rather than a shared password:
+
+        ```
+        aws rds modify-db-instance --db-instance-identifier <instance-id> --enable-iam-database-authentication --apply-immediately
+        ```
+
+    2. Create the database user with the engine's IAM auth grant (`rds_iam` for
+       PostgreSQL, the AWSAuthenticationPlugin for MySQL) and give it only the
+       privileges the application needs.
+    3. Remove shared application accounts and any account whose password is held in
+       more than one place.
+    4. Keep the master credential for break-glass only, held in Secrets Manager with
+       rotation on.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-3', 'AC-8 a']

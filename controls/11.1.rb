@@ -54,7 +54,20 @@ control 'C-11.1' do
     - Remove or update IAM configurations when users or roles are no longer required.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Before hardening, confirm the service's lifecycle status. Amazon QLDB has been
+    announced for end of support, so for most adopters the correct remediation is a
+    migration plan to a supported ledger or an Aurora PostgreSQL design, not a
+    long-term investment in this configuration. Verify the current date against the
+    published schedule.
+
+    Where the ledger remains in use:
+
+    1. Grant access through IAM roles scoped to the specific ledger ARN, with
+       `qldb:SendCommand` for data-plane access separated from administrative
+       actions.
+    2. Keep `qldb:DeleteLedger` and `qldb:UpdateLedger` in an administrative role no
+       application assumes.
+    3. Enable deletion protection on the ledger.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-3', 'AC-8 a']

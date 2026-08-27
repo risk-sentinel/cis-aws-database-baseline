@@ -45,7 +45,13 @@ control 'C-7.8' do
     - Fine-tune the monitoring settings, alarms, and notifications based on the observed patterns and requirements of your application.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Enable Enhanced Monitoring and Performance Insights on the instances for
+       OS-level and query-level visibility.
+    2. Alarm on replication lag, CPU, freeable memory, connection count, and volume
+       size, and deliver to a confirmed SNS subscription.
+    3. Alarm separately on failed authentication attempts, which is the signal that
+       distinguishes a performance problem from an access problem.
+    4. Verify the alarm path end to end rather than trusting the configuration.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']

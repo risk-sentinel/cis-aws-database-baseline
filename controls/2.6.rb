@@ -33,7 +33,21 @@ control 'C-2.6' do
     Note: Changing the master password will reboot the DB instance if you apply the change immediately.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Move the master credential into Secrets Manager with rotation enabled, so the
+    password changes on a schedule without a human handling it.
+
+        ```
+        aws secretsmanager rotate-secret --secret-id <secret-arn> --rotation-lambda-arn <lambda-arn> --rotation-rules AutomaticallyAfterDays=30
+        ```
+
+    1. Where the engine supports it, prefer IAM database authentication for
+       application sign-in. The token is valid for 15 minutes, so there is no
+       long-lived password to rotate at all.
+    2. Reserve the master credential for break-glass use, and alarm on its retrieval
+       from Secrets Manager.
+    3. Rotate any credential that has been exposed in a parameter store, a
+       CloudFormation output, or an environment variable, rather than only going
+       forward from now.
   "
   tag severity:              'medium'
   tag nist:                  ['SC-7 a', 'IA-5 (1) (e)']

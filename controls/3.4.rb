@@ -53,7 +53,19 @@ control 'C-3.4' do
     - Update the security group rules as needed to reflect changes in your network access requirements.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Restrict the database security group to the database port, from the application
+    security group only.
+
+        ```
+        aws ec2 authorize-security-group-ingress --group-id <db-sg-id> --protocol tcp --port 5432 --source-group <app-sg-id>
+        ```
+
+    1. Remove any rule permitting the database port from `0.0.0.0/0` or from a broad
+       internal CIDR.
+    2. Reference the application security group rather than a CIDR, so the rule
+       stays correct as instances and tasks are replaced.
+    3. Give the database its own security group rather than sharing one with the
+       application tier, so the two can be reasoned about separately.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-3', 'AC-8 a']

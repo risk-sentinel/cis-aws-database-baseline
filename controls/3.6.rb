@@ -43,7 +43,20 @@ control 'C-3.6' do
     - Manage certificate expiration and renewal to ensure uninterrupted SSL/TLS encryption.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Require TLS at the engine, rather than trusting every client to opt in.
+
+    1. In the parameter group, set the engine's enforcement parameter and reboot to
+       apply: `rds.force_ssl=1` for PostgreSQL and SQL Server, `require_secure_transport=ON`
+       for MySQL and MariaDB.
+
+        ```
+        aws rds modify-db-parameter-group --db-parameter-group-name <pg-name> --parameters 'ParameterName=rds.force_ssl,ParameterValue=1,ApplyMethod=pending-reboot'
+        ```
+
+    2. Distribute the RDS CA bundle and configure clients to verify the server
+       certificate. Encryption without verification still permits interception.
+    3. Confirm existing sessions are encrypted before enforcing, or unprepared
+       clients will fail to connect at the reboot.
   "
   tag severity:              'medium'
   tag nist:                  ['SC-8', 'AC-8 a']

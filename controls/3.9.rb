@@ -3,10 +3,22 @@
 control 'C-3.9' do
   title 'Ensure Monitoring and Logging is Enabled'
   desc  "
-    TODO: description missing in source XCCDF
+    Export engine logs off the instance and alarm on the conditions that precede an
+    outage or indicate misuse.
+
+    Logs held only on the instance are lost with it, which is precisely when they are
+    needed. Metrics without alarms record an incident rather than preventing one, and
+    the default CloudWatch metric set alone will not show which statement caused a
+    problem.
   "
   desc  'rationale', "
-    TODO: description missing in source XCCDF
+    Export engine logs off the instance and alarm on the conditions that precede an
+    outage or indicate misuse.
+
+    Logs held only on the instance are lost with it, which is precisely when they are
+    needed. Metrics without alarms record an incident rather than preventing one, and
+    the default CloudWatch metric set alone will not show which statement caused a
+    problem.
   "
   desc  'check', "
     1. Sign into the AWS Management Console
@@ -57,7 +69,19 @@ control 'C-3.9' do
     - Respond to alerts promptly by investigating and resolving the underlying issues or taking appropriate actions.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Export the engine logs to CloudWatch Logs so they outlive the instance:
+
+        ```
+        aws rds modify-db-instance --db-instance-identifier <instance-id> --cloudwatch-logs-export-configuration '{\"EnableLogTypes\":[\"postgresql\",\"upgrade\"]}' --apply-immediately
+        ```
+
+    2. Enable Enhanced Monitoring for OS-level metrics, and Performance Insights for
+       query-level visibility. The default CloudWatch metrics alone will not show you
+       which statement caused an incident.
+    3. Alarm on the conditions that precede an outage - storage headroom, CPU credit
+       balance on burstable classes, replica lag, and failed connection count - and
+       deliver them to a confirmed SNS subscription.
+    4. Set a retention period on the log groups.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

@@ -63,7 +63,17 @@ control 'C-7.11' do
     - Stay updated with security best practices and apply any relevant updates or patches to your cluster.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Assess on a defined cycle, and record it.
+
+    1. Cover at each assessment: network placement and security group rules,
+       encryption at rest and TLS enforcement, user inventory and role assignments,
+       audit logging, backup retention and restore testing, and engine version
+       support.
+    2. Include a review of who holds the master credential and whether it has been
+       retrieved since the last assessment.
+    3. Record the date, scope, findings, and remediation owners with dates. That
+       record is the evidence for this control, since the state it asserts is
+       procedural rather than API-visible.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

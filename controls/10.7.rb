@@ -51,7 +51,17 @@ control 'C-10.7' do
     Implement automation scripts or systems that handle patch deployments, testing, and monitoring.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Timestream is fully managed - there is no engine version to patch - so this
+    control is about the parts you do own.
+
+    1. Keep the AWS SDK and any Timestream client library in the application's
+       dependency scanning, and update on the same cycle as other dependencies.
+    2. Patch the compute that writes and reads (Lambda runtime, container base image,
+       EC2 host) - that is where an unpatched vulnerability would actually sit.
+    3. Subscribe to AWS Health Dashboard notifications for the service so required
+       client-side changes, such as endpoint or TLS policy updates, are seen.
+    4. Record the review cycle; this control is satisfied by evidence of that process
+       rather than by a service setting.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

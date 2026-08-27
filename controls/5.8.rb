@@ -48,7 +48,22 @@ control 'C-5.8' do
     - Monitor the access logs and perform periodic reviews to ensure the authentication and access control measures function as intended.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Network isolation is not authentication. Add an identity layer.
+
+    1. On Redis, prefer RBAC user groups over a single shared AUTH token, so access
+       is per-identity and commands can be restricted:
+
+        ```
+        aws elasticache create-user --user-id <user-id> --user-name <user-name> --engine redis --access-string 'on ~app:* +@read +@write' --authentication-mode Type=iam
+        aws elasticache modify-replication-group --replication-group-id <group-id> --user-group-ids-to-add <user-group-id> --apply-immediately
+        ```
+
+    2. IAM authentication removes the stored password entirely; where a token is
+       used instead, hold it in Secrets Manager with rotation.
+    3. Restrict dangerous commands (`FLUSHALL`, `CONFIG`, `KEYS`) through the access
+       string rather than by convention.
+    4. AUTH requires encryption in transit to be enabled - without it the token
+       crosses the network in the clear.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-3', 'AC-8 a']

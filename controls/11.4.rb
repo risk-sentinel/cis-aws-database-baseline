@@ -50,7 +50,13 @@ control 'C-11.4' do
     - Implement appropriate encryption and security measures to protect sensitive data during transit in all communication channels.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    QLDB endpoints are HTTPS only.
+
+    1. Add an explicit deny for requests where `aws:SecureTransport` is false, so the
+       property is enforced rather than assumed.
+    2. Confirm clients use a current AWS SDK or the QLDB driver and have not disabled
+       certificate verification.
+    3. Apply the same condition to the VPC endpoint policy where one is in use.
   "
   tag severity:              'medium'
   tag nist:                  ['SC-8', 'AC-8 a']

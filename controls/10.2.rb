@@ -49,7 +49,18 @@ control 'C-10.2' do
     Update the encryption settings if necessary, such as rotating encryption keys or modifying key policies.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Timestream encrypts at rest by default. Move to a customer-managed key so key
+    use is auditable and revocable:
+
+        ```
+        aws timestream-write update-database --database-name <database> --kms-key-id <kms-key-arn>
+        ```
+
+    1. The key applies to both the memory store and the magnetic store.
+    2. Grant the key only to the roles that read and write the database, and alarm on
+       `kms:Decrypt` denials, which indicate either misconfiguration or misuse.
+    3. Confirm any scheduled query writing to another table uses a key with the same
+       protections.
   "
   tag severity:              'medium'
   tag nist:                  ['SC-28', 'AC-8 a']

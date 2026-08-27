@@ -54,7 +54,14 @@ control 'C-10.9' do
     Ensure that everyone involved understands their security responsibilities and follows security best practices.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Review on a defined cycle, and record it.
+
+    1. Re-check at each review: IAM policies against actual usage, the KMS key and
+       its grants, VPC endpoint and endpoint policy, retention settings for both
+       stores, and CloudTrail coverage.
+    2. Pay attention to table-level access as new tables are added - a new table
+       created outside the review inherits no scoping.
+    3. Record the date, reviewer, findings and accepted exceptions as the evidence.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

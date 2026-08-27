@@ -3,10 +3,22 @@
 control 'C-9.7' do
   title 'Ensure Monitoring and Alerting is Enabled'
   desc  "
-    TODO: description missing in source XCCDF
+    Alarm on cluster health and on failed authentication, and deliver the alarms to a
+    destination a person actually monitors.
+
+    An alarm delivered to an unconfirmed SNS subscription is silently discarded, so
+    the monitoring appears configured while notifying nobody. Verifying the delivery
+    path end to end is what separates this control from a configuration that merely
+    looks correct.
   "
   desc  'rationale', "
-    TODO: description missing in source XCCDF
+    Alarm on cluster health and on failed authentication, and deliver the alarms to a
+    destination a person actually monitors.
+
+    An alarm delivered to an unconfirmed SNS subscription is silently discarded, so
+    the monitoring appears configured while notifying nobody. Verifying the delivery
+    path end to end is what separates this control from a configuration that merely
+    looks correct.
   "
   desc  'check', "
     1. Sign in to the AWS Management Console 
@@ -57,7 +69,12 @@ control 'C-9.7' do
     - Configure these tools to gather insights and detect any performance or security issues in your Neptune environment.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Alarm on cluster health, CPU, freeable memory, replication lag and the gremlin
+       or SPARQL error metrics, and deliver to a confirmed SNS subscription.
+    2. Alarm on failed authentication attempts once IAM authentication is enabled.
+    3. Enable Enhanced Monitoring for OS-level metrics on the instances.
+    4. Verify the alarm path by driving an alarm into ALARM state rather than
+       trusting the configuration.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']

@@ -46,7 +46,19 @@ control 'C-6.3' do
     - Update the ACL rules, passwords, or other authentication mechanisms to adapt to changing access requirements or security policies.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Use an ACL with named users rather than a single shared credential:
+
+        ```
+        aws memorydb create-user --user-name <user-name> --access-string 'on ~app:* +@read +@write' --authentication-mode Type=iam
+        aws memorydb update-acl --acl-name <acl-name> --user-names-to-add <user-name>
+        ```
+
+    2. Prefer IAM authentication so there is no stored password; where a password is
+       used, hold it in Secrets Manager with rotation enabled.
+    3. Scope the access string to the key patterns and command categories the
+       application needs, and exclude administrative commands.
+    4. Remove the default user from the ACL, or leave it with no permissions - it is
+       the account most likely to be left enabled.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-3', 'AC-8 a']

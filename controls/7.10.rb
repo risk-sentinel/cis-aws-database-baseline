@@ -3,10 +3,22 @@
 control 'C-7.10' do
   title 'Ensure to Configure Backup Window'
   desc  "
-    TODO: description missing in source XCCDF
+    Set the preferred backup window to a period of low write activity, distinct from
+    the maintenance window.
+
+    Both windows are expressed in UTC, so a window that reads as the middle of the
+    night locally may fall in the working day for the cluster. A backup window that
+    overlaps maintenance, or that is too short for the data volume, produces missed
+    backups that surface only when a restore is attempted.
   "
   desc  'rationale', "
-    TODO: description missing in source XCCDF
+    Set the preferred backup window to a period of low write activity, distinct from
+    the maintenance window.
+
+    Both windows are expressed in UTC, so a window that reads as the middle of the
+    night locally may fall in the working day for the cluster. A backup window that
+    overlaps maintenance, or that is too short for the data volume, produces missed
+    backups that surface only when a restore is attempted.
   "
   desc  'check', "
     1. Perform Manual Backups (Optional)
@@ -30,7 +42,16 @@ control 'C-7.10' do
     - Monitor backup storage usage to ensure it is within the desired limits and plan for additional storage as needed.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+        ```
+        aws docdb modify-db-cluster --db-cluster-identifier <cluster-id> --preferred-backup-window <hh24:mi-hh24:mi> --apply-immediately
+        ```
+
+    1. Set the backup window to a period of low write activity, and confirm it does
+       not overlap the maintenance window.
+    2. Both windows are in UTC. A window that looks like the middle of the night
+       locally may be the middle of the working day for the cluster.
+    3. Confirm the window is long enough for the backup to complete as the data
+       volume grows.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

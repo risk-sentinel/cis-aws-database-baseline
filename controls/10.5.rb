@@ -42,7 +42,16 @@ control 'C-10.5' do
     Regularly monitor IAM activity logs and AWS CloudTrail to identify any unauthorized access attempts or unusual activities related to fine-grained access control.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Timestream authorises at the table level, not per row or per measure, so
+    fine-grained separation is achieved by how the data is laid out.
+
+    1. Split data with differing sensitivity into separate tables or databases, and
+       scope each consumer's IAM policy to only what it needs.
+    2. Where a consumer needs a narrower view of a shared table, use a scheduled
+       query to materialise that subset into its own table and grant access to the
+       derived table instead.
+    3. Do not rely on the application filtering results - the IAM boundary is the
+       control, and a direct `Select` bypasses application logic.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-3', 'AC-8 a']

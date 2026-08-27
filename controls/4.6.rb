@@ -56,7 +56,20 @@ control 'C-4.6' do
     - You can test the compliance checking by changing the DynamoDB table and observing the Lambda function's behavior through the CloudWatch logs or other desired actions performed by the function.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Use the stream as a change feed so configuration and data changes are inspected
+    as they happen rather than at the next audit.
+
+        ```
+        aws dynamodb update-table --table-name <table> --stream-specification StreamEnabled=true,StreamViewType=NEW_AND_OLD_IMAGES
+        aws lambda create-event-source-mapping --function-name <function> --event-source-arn <stream-arn> --starting-position LATEST
+        ```
+
+    1. `NEW_AND_OLD_IMAGES` is what lets the consumer see what changed rather than
+       only the resulting state.
+    2. Give the function a dead-letter queue and alarm on iterator age. A consumer
+       that silently falls behind produces the appearance of checking without the
+       substance.
+    3. Scope the function's role to the stream and its outputs only.
   "
   tag severity:              'medium'
   tag nist:                  ['CM-6 b']

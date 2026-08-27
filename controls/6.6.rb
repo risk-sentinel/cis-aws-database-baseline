@@ -57,7 +57,14 @@ control 'C-6.6' do
     - Stay informed about new CloudWatch features and best practices to optimize your monitoring setup.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Alarm on the conditions that precede failure: memory utilisation and
+       evictions, CPU, replication lag, and swap usage. For a durable store,
+       evictions mean data loss rather than a cache miss.
+    2. Alarm on authentication failures and on ACL or user changes.
+    3. Deliver to an SNS topic with a confirmed subscription, and verify the path by
+       driving an alarm into ALARM state rather than trusting the configuration.
+    4. Enable Contributor Insights or engine logs for the query-level detail needed
+       to explain an alarm after the fact.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']

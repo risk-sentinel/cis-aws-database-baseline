@@ -50,7 +50,13 @@ control 'C-6.4' do
     - Establish appropriate log monitoring and alerting mechanisms to proactively identify and respond to potential security incidents or operational anomalies.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Enable slow-log and engine-log delivery to CloudWatch Logs so engine activity
+       is retained off-cluster.
+    2. Pair those with CloudTrail management events, which record cluster, ACL and
+       user changes - the configuration changes that matter most for this control.
+    3. Alarm on ACL and user modifications specifically. A new user added to the ACL
+       is the change worth seeing quickly.
+    4. Set retention on the log groups and confirm delivery rather than assuming it.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']

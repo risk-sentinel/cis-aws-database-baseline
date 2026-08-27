@@ -48,7 +48,21 @@ control 'C-2.5' do
     - In the Kinesis Data Streams dashboard, click on the stream's name and then click `View data`.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    Export the engine's audit log so it survives the instance and is queryable.
+
+        ```
+        aws rds modify-db-cluster --db-cluster-identifier <cluster-id> --cloudwatch-logs-export-configuration '{\"EnableLogTypes\":[\"audit\",\"error\",\"slowquery\"]}' --apply-immediately
+        ```
+
+    1. For Aurora MySQL, enable the audit plugin through the cluster parameter group
+       (`server_audit_logging`, `server_audit_events`) - exporting alone produces no
+       audit records if the plugin is off.
+    2. For Aurora PostgreSQL, enable `pgaudit` in `shared_preload_libraries` and set
+       `pgaudit.log` to the classes you need.
+    3. Set a retention period on the CloudWatch log group. The default is never
+       expire, which is a cost and a data-retention problem rather than a security
+       one, but it should still be deliberate.
+    4. Confirm records are arriving, rather than assuming the export took effect.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']

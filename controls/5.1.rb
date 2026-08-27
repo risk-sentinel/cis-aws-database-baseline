@@ -41,7 +41,19 @@ control 'C-5.1' do
     - Stay updated with AWS security best practices and recommendations to improve access controls.
   "
   desc  'fix', "
-    TODO: fix text missing in source XCCDF
+    1. Place the cluster in private subnets via a cache subnet group, with no route
+       to an internet gateway.
+    2. Restrict the cluster security group to the cache port from the application
+       security group only:
+
+        ```
+        aws ec2 authorize-security-group-ingress --group-id <cache-sg-id> --protocol tcp --port 6379 --source-group <app-sg-id>
+        ```
+
+    3. Enable encryption in transit and Redis AUTH, or RBAC user groups, so network
+       position alone does not grant access.
+    4. Remove any rule permitting the cache port from a broad CIDR. An unauthenticated
+       Redis reachable on the network is equivalent to published data.
   "
   tag severity:              'medium'
   tag nist:                  ['AC-3', 'AC-8 a']
