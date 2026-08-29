@@ -58,6 +58,7 @@ control 'C-11.2' do
   tag severity:              'medium'
   tag severity_source:       'unassessed'
   tag nist:                  ['SA-8']
+  tag nist_r4:               ['SA-8']
   tag cci:                   ['CCI-000664']
   tag cis_number:            '11.2'
   tag cis_rid:               '11.2'

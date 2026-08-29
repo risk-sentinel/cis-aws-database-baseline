@@ -73,6 +73,7 @@ control 'C-2.4' do
   tag severity:              'medium'
   tag severity_source:       'unassessed'
   tag nist:                  ['AC-3', 'AC-8 a']
+  tag nist_r4:               ['AC-3']
   tag cci:                   ['CCI-000213', 'CCI-000051']
   tag cis_number:            '2.4'
   tag cis_rid:               '2.4'

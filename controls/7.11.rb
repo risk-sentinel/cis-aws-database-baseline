@@ -78,6 +78,7 @@ control 'C-7.11' do
   tag severity:              'medium'
   tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
+  tag nist_r4:               ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '7.11'
   tag cis_rid:               '7.11'

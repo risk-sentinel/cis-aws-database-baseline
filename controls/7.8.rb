@@ -56,6 +56,7 @@ control 'C-7.8' do
   tag severity:              'medium'
   tag severity_source:       'unassessed'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']
+  tag nist_r4:               ['AC-2 f', 'AU-1 a 1']
   tag cci:                   ['CCI-000011', 'CCI-000117']
   tag cis_number:            '7.8'
   tag cis_rid:               '7.8'
