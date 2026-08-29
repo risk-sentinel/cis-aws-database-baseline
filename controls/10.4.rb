@@ -58,6 +58,7 @@ control 'C-10.4' do
     4. Run IAM Access Analyzer and remove permissions the workload has not exercised.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['AC-3', 'AC-8 a']
   tag cci:                   ['CCI-000213', 'CCI-000051']
   tag cis_number:            '10.4'

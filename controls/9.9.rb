@@ -38,6 +38,7 @@ control 'C-9.9' do
     - --apply-immediately applies the change without waiting for the next maintenance window.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '9.9'

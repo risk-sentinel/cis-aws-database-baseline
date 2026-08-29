@@ -45,6 +45,7 @@ control 'C-7.9' do
        matters during an incident, and it is rarely what people assume.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '7.9'

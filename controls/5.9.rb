@@ -62,6 +62,7 @@ control 'C-5.9' do
     3. Set a retention period on the log groups and confirm records are arriving.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']
   tag cci:                   ['CCI-000011', 'CCI-000117']
   tag cis_number:            '5.9'

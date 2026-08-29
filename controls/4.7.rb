@@ -71,6 +71,7 @@ control 'C-4.7' do
        log file validation.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']
   tag cci:                   ['CCI-000011', 'CCI-000117']
   tag cis_number:            '4.7'

@@ -57,6 +57,7 @@ control 'C-10.3' do
     3. Where a VPC endpoint is used, apply the same condition in the endpoint policy.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SC-8', 'AC-8 a']
   tag cci:                   ['CCI-002418', 'CCI-000051']
   tag cis_number:            '10.3'

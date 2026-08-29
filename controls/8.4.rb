@@ -35,6 +35,7 @@ control 'C-8.4' do
     - The change takes effect immediately with no performance impact.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '8.4'

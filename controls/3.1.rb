@@ -72,6 +72,7 @@ control 'C-3.1' do
        design choice rather than a setting to toggle.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['MA-3 a']
   tag cci:                   ['CCI-000865']
   tag cis_number:            '3.1'

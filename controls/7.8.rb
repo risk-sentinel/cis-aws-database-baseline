@@ -54,6 +54,7 @@ control 'C-7.8' do
     4. Verify the alarm path end to end rather than trusting the configuration.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']
   tag cci:                   ['CCI-000011', 'CCI-000117']
   tag cis_number:            '7.8'

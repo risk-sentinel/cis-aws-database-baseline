@@ -56,6 +56,7 @@ control 'C-11.2' do
        condition to the IAM policy so access is only possible from inside the VPC.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SA-8']
   tag cci:                   ['CCI-000664']
   tag cis_number:            '11.2'

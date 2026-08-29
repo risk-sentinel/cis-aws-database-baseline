@@ -41,6 +41,7 @@ control 'C-5.3' do
     The user has two options when it comes to encryption at rest and in transit to choose from. Depending on what actions the user selects from it determines how their data is going to be protected.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SC-8', 'SC-28', 'AC-8 a']
   tag cci:                   ['CCI-002418', 'CCI-001199', 'CCI-000051']
   tag cis_number:            '5.3'

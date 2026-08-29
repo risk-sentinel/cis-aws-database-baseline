@@ -53,6 +53,7 @@ control 'C-4.3' do
        replica in another Region uses a key in that Region.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SC-28', 'AC-8 a']
   tag cci:                   ['CCI-001199', 'CCI-000051']
   tag cis_number:            '4.3'

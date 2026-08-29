@@ -67,6 +67,7 @@ control 'C-5.11' do
     - This enforces cluster mode fully, allowing scaling and other cluster features to be enabled.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '5.11'

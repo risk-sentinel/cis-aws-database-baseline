@@ -125,6 +125,7 @@ control 'C-4.9' do
     These commands create a centralized backup plan with continuous and scheduled snapshot backups, then assign your DynamoDB table as a resource for backup.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '4.9'

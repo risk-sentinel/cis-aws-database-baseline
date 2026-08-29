@@ -64,6 +64,7 @@ control 'C-10.9' do
     3. Record the date, reviewer, findings and accepted exceptions as the evidence.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '10.9'

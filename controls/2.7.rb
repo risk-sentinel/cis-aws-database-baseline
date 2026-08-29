@@ -68,6 +68,7 @@ control 'C-2.7' do
     This is important because it reduces and secures any possible threat that an unauthorized user can gain by hacking into the system.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['AC-3', 'AC-8 a']
   tag cci:                   ['CCI-000213', 'CCI-000051']
   tag cis_number:            '2.7'

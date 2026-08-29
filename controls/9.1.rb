@@ -60,6 +60,7 @@ control 'C-9.1' do
        not need internet egress.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SA-8']
   tag cci:                   ['CCI-000664']
   tag cis_number:            '9.1'

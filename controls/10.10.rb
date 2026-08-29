@@ -87,6 +87,7 @@ control 'C-10.10' do
     - These commands create a centralized backup plan with scheduled snapshot backups, then assign your Timestream database as a resource for backup.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '10.10'

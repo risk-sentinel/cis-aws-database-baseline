@@ -66,6 +66,7 @@ control 'C-6.5' do
     3. Record date, reviewer, changes and accepted exceptions as the evidence.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '6.5'

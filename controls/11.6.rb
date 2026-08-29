@@ -74,6 +74,7 @@ control 'C-11.6' do
        assuming immutability.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']
   tag cci:                   ['CCI-000011', 'CCI-000117']
   tag cis_number:            '11.6'

@@ -74,6 +74,7 @@ control 'C-5.7' do
        its expiry. That record is the evidence for this control.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '5.7'

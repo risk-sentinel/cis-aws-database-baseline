@@ -40,6 +40,7 @@ control 'C-3.14' do
     - Once enabled, the cluster cannot be deleted without first disabling deletion protection.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '3.14'

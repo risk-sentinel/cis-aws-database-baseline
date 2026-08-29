@@ -57,6 +57,7 @@ control 'C-4.5' do
        should be possible only from inside the VPC.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SA-8']
   tag cci:                   ['CCI-000664']
   tag cis_number:            '4.5'

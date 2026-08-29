@@ -68,6 +68,7 @@ control 'C-6.2' do
     3. Confirm snapshots inherit the same key.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SC-8', 'SC-28', 'AC-8 a']
   tag cci:                   ['CCI-002418', 'CCI-001199', 'CCI-000051']
   tag cis_number:            '6.2'

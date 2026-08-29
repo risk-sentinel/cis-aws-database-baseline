@@ -59,6 +59,7 @@ control 'C-3.6' do
        clients will fail to connect at the reboot.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SC-8', 'AC-8 a']
   tag cci:                   ['CCI-002418', 'CCI-000051']
   tag cis_number:            '3.6'

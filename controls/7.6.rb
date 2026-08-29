@@ -64,6 +64,7 @@ control 'C-7.6' do
     3. Set retention on the log group and confirm records arrive.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']
   tag cci:                   ['CCI-000011', 'CCI-000117']
   tag cis_number:            '7.6'

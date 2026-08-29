@@ -61,6 +61,7 @@ control 'C-8.2' do
        be possible from inside the VPC.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SA-8']
   tag cci:                   ['CCI-000664']
   tag cis_number:            '8.2'

@@ -76,6 +76,7 @@ control 'C-3.3' do
        the workload allows it.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SA-8']
   tag cci:                   ['CCI-000664']
   tag cis_number:            '3.3'

@@ -100,6 +100,7 @@ control 'C-4.2' do
        directly - scope index ARNs explicitly too.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['AC-3', 'AC-8 a']
   tag cci:                   ['CCI-000213', 'CCI-000051']
   tag cis_number:            '4.2'

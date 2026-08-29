@@ -56,6 +56,7 @@ control 'C-8.3' do
     3. Confirm the driver is not configured to fall back to a plaintext port.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SC-8', 'SC-28', 'AC-8 a']
   tag cci:                   ['CCI-002418', 'CCI-001199', 'CCI-000051']
   tag cis_number:            '8.3'

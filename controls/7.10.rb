@@ -54,6 +54,7 @@ control 'C-7.10' do
        volume grows.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '7.10'

@@ -72,6 +72,7 @@ control 'C-4.6' do
     3. Scope the function's role to the stream and its outputs only.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '4.6'

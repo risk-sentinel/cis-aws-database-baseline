@@ -57,6 +57,7 @@ control 'C-7.1' do
     To establish connection, the users would need to factor in their virtual private cloud (VPC), create subnet, configure routing, and implement ACLs.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SA-8']
   tag cci:                   ['CCI-000664']
   tag cis_number:            '7.1'

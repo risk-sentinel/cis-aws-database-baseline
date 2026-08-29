@@ -59,6 +59,7 @@ control 'C-9.11' do
     5. Choose Create read replica to create the Neptune replica instance.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '9.11'
