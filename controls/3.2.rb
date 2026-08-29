@@ -62,7 +62,10 @@ control 'C-3.2' do
        maintenance window tells you the application reconnects.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
+  tag ksi:                   ['KSI-CMT-LMC', 'KSI-CMT-RMV', 'KSI-MLA-EVC', 'KSI-SVC-ACM']
+  tag nist_r4:               ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '3.2'
   tag cis_rid:               '3.2'

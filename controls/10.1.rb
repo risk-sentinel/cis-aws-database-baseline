@@ -66,7 +66,10 @@ control 'C-10.1' do
        pipeline's role - the weakest identity in the chain sets the exposure.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
+  tag ksi:                   ['KSI-CMT-LMC', 'KSI-CMT-RMV', 'KSI-MLA-EVC', 'KSI-SVC-ACM']
+  tag nist_r4:               ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '10.1'
   tag cis_rid:               '10.1'

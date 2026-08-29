@@ -65,7 +65,10 @@ control 'C-2.5' do
     4. Confirm records are arriving, rather than assuming the export took effect.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']
+  tag ksi:                   ['KSI-IAM-APM', 'KSI-IAM-JIT', 'KSI-IAM-SNU', 'KSI-IAM-SUS']
+  tag nist_r4:               ['AC-2 f', 'AU-1 a 1']
   tag cci:                   ['CCI-000011', 'CCI-000117']
   tag cis_number:            '2.5'
   tag cis_rid:               '2.5'

@@ -68,7 +68,10 @@ control 'C-6.1' do
        exposure with the same seriousness as a database, not a disposable tier.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SA-8']
+  tag ksi:                   ['KSI-PIY-RSD']
+  tag nist_r4:               ['SA-8']
   tag cci:                   ['CCI-000664']
   tag cis_number:            '6.1'
   tag cis_rid:               '6.1'

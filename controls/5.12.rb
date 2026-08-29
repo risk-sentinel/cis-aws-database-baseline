@@ -45,7 +45,10 @@ control 'C-5.12' do
     - The --apply-immediately flag ensures the change happens without waiting for the next maintenance window. Use with caution in production.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
+  tag ksi:                   ['KSI-CMT-LMC', 'KSI-CMT-RMV', 'KSI-MLA-EVC', 'KSI-SVC-ACM']
+  tag nist_r4:               ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '5.12'
   tag cis_rid:               '5.12'

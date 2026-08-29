@@ -130,7 +130,10 @@ control 'C-3.13' do
     ```
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['AC-2 (2)']
+  tag ksi:                   ['KSI-IAM-AAM', 'KSI-IAM-JIT', 'KSI-IAM-SNU']
+  tag nist_r4:               ['AC-2 (2)']
   tag cci:                   ['CCI-001682']
   tag cis_number:            '3.13'
   tag cis_rid:               '3.13'

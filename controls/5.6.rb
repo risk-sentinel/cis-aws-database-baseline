@@ -56,7 +56,10 @@ control 'C-5.6' do
     The individual can understand the health, performance, and behavior of their clusters which allows them to address any unusual activity that takes place.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']
+  tag ksi:                   ['KSI-IAM-APM', 'KSI-IAM-JIT', 'KSI-IAM-SNU', 'KSI-IAM-SUS']
+  tag nist_r4:               ['AC-2 f', 'AU-1 a 1']
   tag cci:                   ['CCI-000011', 'CCI-000117']
   tag cis_number:            '5.6'
   tag cis_rid:               '5.6'

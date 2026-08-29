@@ -59,7 +59,10 @@ control 'C-11.4' do
     3. Apply the same condition to the VPC endpoint policy where one is in use.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SC-8', 'AC-8 a']
+  tag ksi:                   ['KSI-CNA-MAT', 'KSI-CNA-ULN', 'KSI-SVC-SIN']
+  tag nist_r4:               ['SC-8']
   tag cci:                   ['CCI-002418', 'CCI-000051']
   tag cis_number:            '11.4'
   tag cis_rid:               '11.4'

@@ -54,7 +54,10 @@ control 'C-11.3' do
        encryption - the export leaves the ledger's protection behind.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SC-28', 'AC-8 a']
+  tag ksi:                   ['KSI-SVC-SIN']
+  tag nist_r4:               ['SC-28']
   tag cci:                   ['CCI-001199', 'CCI-000051']
   tag cis_number:            '11.3'
   tag cis_rid:               '11.3'

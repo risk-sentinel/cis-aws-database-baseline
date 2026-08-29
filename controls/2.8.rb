@@ -39,7 +39,10 @@ control 'C-2.8' do
     This is important because it would allow the user to automatically save their files and instantly have access to their files when needed.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['CM-6 b']
+  tag ksi:                   ['KSI-CMT-LMC', 'KSI-CMT-RMV', 'KSI-MLA-EVC', 'KSI-SVC-ACM']
+  tag nist_r4:               ['CM-6 b']
   tag cci:                   ['CCI-000366']
   tag cis_number:            '2.8'
   tag cis_rid:               '2.8'

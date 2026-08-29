@@ -56,7 +56,10 @@ control 'C-5.1' do
        Redis reachable on the network is equivalent to published data.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['AC-3', 'AC-8 a']
+  tag ksi:                   ['KSI-IAM-APM', 'KSI-IAM-ELP', 'KSI-IAM-JIT']
+  tag nist_r4:               ['AC-3']
   tag cci:                   ['CCI-000213', 'CCI-000051']
   tag cis_number:            '5.1'
   tag cis_rid:               '5.1'

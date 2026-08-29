@@ -85,7 +85,10 @@ control 'C-2.3' do
     In both cases, if SSL is enabled, you should see a non-empty cipher suite or on as a result.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SC-8', 'AC-8 a']
+  tag ksi:                   ['KSI-CNA-MAT', 'KSI-CNA-ULN', 'KSI-SVC-SIN']
+  tag nist_r4:               ['SC-8']
   tag cci:                   ['CCI-002418', 'CCI-000051']
   tag cis_number:            '2.3'
   tag cis_rid:               '2.3'

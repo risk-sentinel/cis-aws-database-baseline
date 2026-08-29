@@ -48,7 +48,10 @@ control 'C-9.3' do
        `https://` and verify the certificate.
   "
   tag severity:              'medium'
+  tag severity_source:       'unassessed'
   tag nist:                  ['SC-8', 'AC-8 a']
+  tag ksi:                   ['KSI-CNA-MAT', 'KSI-CNA-ULN', 'KSI-SVC-SIN']
+  tag nist_r4:               ['SC-8']
   tag cci:                   ['CCI-002418', 'CCI-000051']
   tag cis_number:            '9.3'
   tag cis_rid:               '9.3'
