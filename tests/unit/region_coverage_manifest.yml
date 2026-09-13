@@ -1,0 +1,95 @@
+# Which custom resources must enumerate every enabled region, and how the
+# harness should construct and observe each one.
+#
+# Each entry:
+#   resource  - the library file under libraries/ (without .rb)
+#   klass     - the Ruby class it defines
+#   args      - constructor keyword args (optional)
+#   watch     - service + operation whose per-region invocation proves the walk,
+#               plus an optional `payload` for operations with required response
+#               members. NEVER watch describe_regions: that is the discovery call
+#               every per-region resource makes once against the default client,
+#               so watching it proves nothing.
+#   status    - `unobservable` means the walk cannot be seen through a stubbed
+#               client (endpoint discovery, usually). Requires a `reason`. NOT a
+#               defect — do not "fix" these.
+#               `enforced` must query every region, and fails the build if it
+#               regresses. `known_blind` is reported without failing, so this
+#               harness can land before the fixes and each resource flips to
+#               enforced in the PR that fixes it.
+#
+# DELIBERATELY NOT LISTED — global services. Region enumeration is meaningless
+# for these, and a future sweep should not "fix" them:
+#   aws_timestream_access_iam  - @aws.iam_client; IAM is a global service.
+#   aws_rds_cluster_parameter_group - looks a group up BY NAME for a known DB.
+#     Whether that should sweep every region or resolve the region from the DB
+#     is an open judgement call (see the region-blind issue); listed as
+#     known_blind so it is visible, not silently treated as correct.
+#
+regions: [us-east-1, us-west-2, eu-west-1]
+
+resources:
+  - resource: aws_db_cloudwatch_alarms_coverage
+    klass: AwsDbCloudwatchAlarmsCoverage
+    # Iterates `namespaces`; with none supplied it does no work at all and looks
+    # region-blind when it is not. Constructor args must exercise the real path.
+    args: { namespaces: ["AWS/RDS"] }
+    watch: { service: cloudwatch, operation: describe_alarms }
+    status: enforced
+
+  - resource: aws_dynamodb_compliance
+    klass: AwsDynamodbCompliance
+    watch:
+      service: dynamodb
+      operation: list_tables
+      payload: { table_names: [] }
+    status: enforced
+
+  - resource: aws_elasticache_compliance
+    klass: AwsElasticacheCompliance
+    watch: { service: elasticache, operation: describe_replication_groups }
+    status: enforced
+
+  - resource: aws_keyspaces_compliance
+    klass: AwsKeyspacesCompliance
+    watch:
+      service: keyspaces
+      operation: list_keyspaces
+      payload: { keyspaces: [] }
+    status: enforced
+
+  - resource: aws_memorydb_compliance
+    klass: AwsMemorydbCompliance
+    watch: { service: memorydb, operation: describe_clusters }
+    status: enforced
+
+  - resource: aws_redshift_compliance
+    klass: AwsRedshiftCompliance
+    watch: { service: redshift, operation: describe_clusters }
+    status: enforced
+
+  - resource: aws_timestream_compliance
+    klass: AwsTimestreamCompliance
+    watch:
+      service: timestreamwrite
+      operation: list_databases
+      payload: { databases: [] }
+    # Timestream uses ENDPOINT DISCOVERY, which fails closed under
+    # Aws.config[:stub_responses] before any operation is reached, so the
+    # per-region walk cannot be observed here. The resource IS region-correct —
+    # it builds a client per region exactly like its siblings. Marked
+    # unobservable rather than known_blind so nobody "fixes" a non-bug.
+    status: unobservable
+    reason: "Timestream endpoint discovery fails under stub_responses; walk is correct but unobservable"
+
+  - resource: aws_timestream_audit_coverage
+    klass: AwsTimestreamAuditCoverage
+    watch: { service: cloudtrail, operation: describe_trails }
+    status: known_blind
+
+  - resource: aws_rds_cluster_parameter_group
+    klass: AwsRdsClusterParameterGroup
+    args: { name: "default" }
+    watch: { service: rds, operation: describe_db_cluster_parameters }
+    status: known_blind
+
