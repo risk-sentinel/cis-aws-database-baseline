@@ -24,6 +24,7 @@
 # Depends on `_aws_backend_bootstrap.rb` having loaded first.
 
 class AwsElasticacheCompliance < AwsResourceBase
+  include RegionScope
   include AwsDbComplianceShared
 
   name "aws_elasticache_compliance"
@@ -54,7 +55,7 @@ class AwsElasticacheCompliance < AwsResourceBase
     @groups_without_transit_encryption = []
     @groups_without_at_rest_encryption = []
     @groups_in_default_vpc = []
-    @regions = region_override.empty? ? fetch_default_regions : region_override
+    @regions = region_scope_or_fail!(@aws, region_override)
     fetch_data
   end
 
@@ -68,13 +69,6 @@ class AwsElasticacheCompliance < AwsResourceBase
 
   private
 
-  def fetch_default_regions
-    regions = []
-    catch_aws_errors do
-      regions = @aws.compute_client.describe_regions.regions.map(&:region_name)
-    end
-    regions
-  end
 
   def fetch_data
     @regions.each { |r| walk_region(r) }

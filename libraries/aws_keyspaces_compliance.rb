@@ -33,6 +33,7 @@ module AwsKeyspacesComplianceCache
 end
 
 class AwsKeyspacesCompliance < AwsResourceBase
+  include RegionScope
   include AwsDbComplianceShared
 
   name "aws_keyspaces_compliance"
@@ -83,7 +84,7 @@ class AwsKeyspacesCompliance < AwsResourceBase
       return
     end
 
-    @regions = region_override.empty? ? fetch_default_regions : region_override
+    @regions = region_scope_or_fail!(@aws, region_override)
     fetch_data
     AwsKeyspacesComplianceCache::STATE[cache_key] = snapshot
   end
@@ -116,13 +117,6 @@ class AwsKeyspacesCompliance < AwsResourceBase
     @connection_error = cached[:connection_error]
   end
 
-  def fetch_default_regions
-    regions = []
-    catch_aws_errors do
-      regions = @aws.compute_client.describe_regions.regions.map(&:region_name)
-    end
-    regions
-  end
 
   def fetch_data
     @regions.each do |r|

@@ -16,6 +16,7 @@
 # Depends on `_aws_backend_bootstrap.rb` having loaded first.
 
 class AwsMemorydbCompliance < AwsResourceBase
+  include RegionScope
   include AwsDbComplianceShared
 
   name "aws_memorydb_compliance"
@@ -64,7 +65,7 @@ class AwsMemorydbCompliance < AwsResourceBase
       @connection_error = "aws-sdk-memorydb not installed: #{e.message}. Use risksentinel/cinc-auditor extended image (your CI image-bake tracker) or attest separately."
       return
     end
-    @regions = region_override.empty? ? fetch_default_regions : region_override
+    @regions = region_scope_or_fail!(@aws, region_override)
     fetch_data
   end
 
@@ -78,13 +79,6 @@ class AwsMemorydbCompliance < AwsResourceBase
 
   private
 
-  def fetch_default_regions
-    regions = []
-    catch_aws_errors do
-      regions = @aws.compute_client.describe_regions.regions.map(&:region_name)
-    end
-    regions
-  end
 
   def fetch_data
     @regions.each { |r| walk_region(r) }

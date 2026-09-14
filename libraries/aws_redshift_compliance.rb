@@ -12,6 +12,7 @@
 # Depends on `_aws_backend_bootstrap.rb` having loaded first.
 
 class AwsRedshiftCompliance < AwsResourceBase
+  include RegionScope
   include AwsDbComplianceShared
 
   name "aws_redshift_compliance"
@@ -42,7 +43,7 @@ class AwsRedshiftCompliance < AwsResourceBase
     @clusters_without_audit_logging = []
     @clusters_without_iam_roles = []
     @clusters_with_default_master_username = []
-    @regions = region_override.empty? ? fetch_default_regions : region_override
+    @regions = region_scope_or_fail!(@aws, region_override)
     fetch_data
   end
 
@@ -56,13 +57,6 @@ class AwsRedshiftCompliance < AwsResourceBase
 
   private
 
-  def fetch_default_regions
-    regions = []
-    catch_aws_errors do
-      regions = @aws.compute_client.describe_regions.regions.map(&:region_name)
-    end
-    regions
-  end
 
   def fetch_data
     @regions.each { |r| walk_region(r) }
