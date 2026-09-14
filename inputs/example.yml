@@ -23,11 +23,16 @@ aws_partition: aws
 
 # ---- SCOPING — set these before your first run ------------------------------
 
-# Regions to enumerate.
-# EMPTY = every region. Correct, slow, and the single biggest lever on runtime.
-#   scan_regions: [us-east-1, us-west-2]
-scan_regions: []
-
+# Regions to assess. REQUIRED -- an empty value is an error, not a fallback:
+# the profile refuses to assess a single region silently, because nothing in the
+# resulting evidence would distinguish "we looked and found nothing" from "we did
+# not look".
+#
+# "*" sweeps every enabled region in the partition and narrows to GovCloud
+# automatically. Replace it with an explicit list to scan faster and to state the
+# assessed scope where an assessor can read it.
+scan_regions:
+  - "*"
 # Database services to assess. This profile covers far more than any one
 # consumer runs — RDS, Aurora, DynamoDB, DocumentDB, Neptune, Redshift,
 # ElastiCache, MemoryDB, Timestream, Keyspaces.
