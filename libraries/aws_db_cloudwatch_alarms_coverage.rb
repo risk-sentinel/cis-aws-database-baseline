@@ -17,6 +17,7 @@
 # Depends on `_aws_backend_bootstrap.rb` having loaded first.
 
 class AwsDbCloudwatchAlarmsCoverage < AwsResourceBase
+  include RegionScope
   include AwsDbComplianceShared
 
   name "aws_db_cloudwatch_alarms_coverage"
@@ -28,7 +29,7 @@ class AwsDbCloudwatchAlarmsCoverage < AwsResourceBase
     end
   "
 
-  attr_reader :alarms, :namespaces, :namespaces_without_alarms
+  attr_reader :alarms, :namespaces, :namespaces_without_alarms, :connection_error
 
   def initialize(opts = {})
     opts = opts.dup
@@ -38,7 +39,7 @@ class AwsDbCloudwatchAlarmsCoverage < AwsResourceBase
     validate_parameters
     @alarms = []
     @namespaces_without_alarms = []
-    @regions = region_override.empty? ? fetch_default_regions : region_override
+    @regions = region_scope_or_fail!(@aws, region_override)
     fetch_data
   end
 
@@ -52,13 +53,6 @@ class AwsDbCloudwatchAlarmsCoverage < AwsResourceBase
 
   private
 
-  def fetch_default_regions
-    regions = []
-    catch_aws_errors do
-      regions = @aws.compute_client.describe_regions.regions.map(&:region_name)
-    end
-    regions
-  end
 
   def fetch_data
     @namespaces.each { |ns| classify_namespace(ns) }

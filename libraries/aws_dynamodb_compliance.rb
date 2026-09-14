@@ -16,6 +16,7 @@
 # Depends on `_aws_backend_bootstrap.rb` having loaded first.
 
 class AwsDynamodbCompliance < AwsResourceBase
+  include RegionScope
   include AwsDbComplianceShared
 
   name "aws_dynamodb_compliance"
@@ -47,7 +48,7 @@ class AwsDynamodbCompliance < AwsResourceBase
     @tables_without_pitr = []
     @tables_without_streams = []
     @tables_without_resource_policy = []
-    @regions = region_override.empty? ? fetch_default_regions : region_override
+    @regions = region_scope_or_fail!(@aws, region_override)
     fetch_data
   end
 
@@ -61,13 +62,6 @@ class AwsDynamodbCompliance < AwsResourceBase
 
   private
 
-  def fetch_default_regions
-    regions = []
-    catch_aws_errors do
-      regions = @aws.compute_client.describe_regions.regions.map(&:region_name)
-    end
-    regions
-  end
 
   def fetch_data
     @regions.each { |r| walk_region(r) }
