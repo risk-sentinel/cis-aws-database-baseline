@@ -83,16 +83,30 @@ report clean.
 
 ## Controls
 
-98 controls, grouped by service, following the CIS v2.0.0 numbering:
+98 controls, one section per service, following the CIS v2.0.0 numbering:
 
-| Section | Service |
-|---|---|
-| 1–3 | RDS and Aurora — encryption, backups, public accessibility, minor-version upgrades, IAM auth, logging |
-| 4 | DynamoDB — encryption, PITR, deletion protection |
-| 5–6 | DocumentDB, Neptune — TLS, audit logs, encryption |
-| 7 | Redshift — encryption, public access, logging, upgrades |
-| 8–9 | ElastiCache, MemoryDB — transit and at-rest encryption, auth |
-| 10 | Timestream, Keyspaces — encryption, backups, audit coverage |
+| Section | Service | Controls | Covers |
+|---|---|---:|---|
+| 2 | Aurora | 11 | security groups, IAM auth, delete protection, encryption at rest and in transit, least privilege, audit logging, password rotation, automatic backups |
+| 3 | RDS | 14 | public accessibility, engine selection, VPC placement, backup and recovery, IAM auth, access control, periodic security-configuration review |
+| 4 | DynamoDB | 9 | IAM, encryption at rest and in transit, fine-grained access control, VPC endpoints, backups, streams-driven compliance checking |
+| 5 | ElastiCache | 13 | multi-AZ deployment, secure access, cluster mode, encryption at rest and in transit, automatic backups, automatic patching |
+| 6 | MemoryDB | 7 | network security, authentication and access control, audit logging, encryption, automatic backups, monitoring and alerting |
+| 7 | DocumentDB | 12 | network architecture, VPC security, delete protection, encryption at rest and in transit, backup window, audit logging, updates, security assessments |
+| 8 | Keyspaces | 4 | network security, point-in-time recovery, encryption at rest and in transit, keyspace security |
+| 9 | Neptune | 11 | network security, encryption at rest and in transit, delete protection, multi-AZ deployment, authentication and access control, audit logging |
+| 10 | Timestream | 10 | secure ingestion, automated backups, encryption at rest and in transit, access control, fine-grained access control, audit logging, monitoring |
+| 11 | Redshift | 7 | IAM, network access, encryption at rest and in transit, access control and authentication, monitoring and logging, backup and recovery |
+
+**The numbering starts at 2 because the benchmark does.** CIS AWS Database
+Services Benchmark v2.0.0 numbers its 98 recommendations 2.1 through 11.7; there
+is no section 1 to implement and none is missing here. The per-section counts
+above match the source one for one, and sum to 98.
+
+This is a property of *this* benchmark rather than a CIS-wide convention — the
+CIS AWS Storage Services Benchmark does have a section 1, and the Compute
+benchmark skips several section numbers entirely. Section numbers are document
+slots, and not every slot carries scored recommendations.
 
 ---
 
