@@ -75,10 +75,10 @@ control 'C-11.6' do
   "
   tag severity:              'medium'
   tag severity_source:       'unassessed'
-  tag nist:                  ['AC-2 f', 'AU-1 a 1 (a)']
-  tag ksi:                   ['KSI-IAM-APM', 'KSI-IAM-JIT', 'KSI-IAM-SNU', 'KSI-IAM-SUS']
-  tag nist_r4:               ['AC-2 f', 'AU-1 a 1']
-  tag cci:                   ['CCI-000011', 'CCI-000117']
+  tag nist:                  ['AU-1 a 2', 'AU-1 a 1 (a)', 'AU-1 c 2', 'AU-2 c']
+  tag ksi:                   ['KSI-CMT-LMC', 'KSI-MLA-LET', 'KSI-MLA-OSM', 'KSI-MLA-RVL']
+  tag nist_r4:               ['AU-1 a 1', 'AU-1 a 2', 'AU-1 b 2', 'AU-2 d']
+  tag cci:                   ['CCI-000120', 'CCI-000117', 'CCI-000122', 'CCI-000126']
   tag cis_number:            '11.6'
   tag cis_rid:               '11.6'
   tag cis_benchmark:         'CIS AWS Database Services Benchmark v2.0.0'
